@@ -54,53 +54,57 @@ if uploaded is not None:
     original_size = len(raw)
     st.write(f"**{uploaded.name}** — {mb(original_size)}")
 
-    ready_bytes = raw
-    ready = True
-
-    if original_size > MAX_BYTES:
+    needs_shrink = original_size > MAX_BYTES
+    if needs_shrink:
         st.info(t("translate.shrink_info"))
-        with st.spinner(t("translate.shrink_spinner")):
-            try:
-                shrunk = shrink_to_target(raw, uploaded.name)
-            except Exception as e:
-                st.error(t("translate.shrinker_failed", error=str(e)))
-                ready = False
-                shrunk = None
 
-        if shrunk is not None:
-            new_size = len(shrunk)
-            st.info(t("translate.shrink_done", before=mb(original_size), after=mb(new_size)))
-            if new_size > MAX_BYTES:
-                st.error(t("translate.too_big", size=mb(new_size)))
-                ready = False
-            else:
-                ready_bytes = shrunk
+    if st.session_state.translated_bytes is None and st.button(t("translate.button"), type="primary"):
+        ready_bytes = raw
+        ready = True
 
-    if ready and st.session_state.translated_bytes is None and st.button(t("translate.button"), type="primary"):
-        with st.spinner(t("translate.spinner")):
-            try:
-                translated = translate_document_bytes(
-                    ready_bytes,
-                    source_language=source_language,
-                    filename=uploaded.name,
-                )
-            except NotImplementedError as e:
-                st.error(str(e))
-                translated = None
-            except ValueError as e:
-                st.error(str(e))
-                translated = None
-            except HttpResponseError as e:
-                st.error(t("translate.azure_error", error=e.message))
-                translated = None
+        if needs_shrink:
+            with st.spinner(t("translate.shrink_spinner")):
+                try:
+                    shrunk = shrink_to_target(raw, uploaded.name)
+                except Exception as e:
+                    st.error(t("translate.shrinker_failed", error=str(e)))
+                    ready = False
+                    shrunk = None
 
-        if translated is not None:
-            # TODO: proofreading pass
-            stem = Path(uploaded.name).stem
-            st.session_state.translated_bytes = translated
-            st.session_state.translated_name = f"{stem}_translated.docx"
-            st.session_state.translated_file_id = uploaded.file_id
-            st.rerun()
+            if shrunk is not None:
+                new_size = len(shrunk)
+                st.info(t("translate.shrink_done", before=mb(original_size), after=mb(new_size)))
+                if new_size > MAX_BYTES:
+                    st.error(t("translate.too_big", size=mb(new_size)))
+                    ready = False
+                else:
+                    ready_bytes = shrunk
+
+        if ready:
+            with st.spinner(t("translate.spinner")):
+                try:
+                    translated = translate_document_bytes(
+                        ready_bytes,
+                        source_language=source_language,
+                        filename=uploaded.name,
+                    )
+                except NotImplementedError as e:
+                    st.error(str(e))
+                    translated = None
+                except ValueError as e:
+                    st.error(str(e))
+                    translated = None
+                except HttpResponseError as e:
+                    st.error(t("translate.azure_error", error=e.message))
+                    translated = None
+
+            if translated is not None:
+                # TODO: proofreading pass
+                stem = Path(uploaded.name).stem
+                st.session_state.translated_bytes = translated
+                st.session_state.translated_name = f"{stem}_translated.docx"
+                st.session_state.translated_file_id = uploaded.file_id
+                st.rerun()
 
 if st.session_state.translated_bytes is not None:
     st.success(t("translate.complete"))
