@@ -1,0 +1,8 @@
+.claude
+.venv
+.env
+*.idea/
+*__pycache__
+data/
+*notes.txt
+*.jpg

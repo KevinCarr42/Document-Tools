@@ -1,0 +1,41 @@
+# Shared
+
+[theme]
+base = "dark"
+font = "sans serif"
+baseRadius = "6px"
+primaryColor = "#2563EB"
+
+# Light mode
+
+[theme.light]
+
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#DEDEDE"
+textColor = "#0F172A"
+borderColor = "#999999"
+linkColor = "#2563EB"
+
+
+# Dark mode
+
+[theme.dark]
+
+backgroundColor = "#0B1220"
+secondaryBackgroundColor = "#1E293B"
+textColor = "#F1F5F9"
+borderColor = "#334155"
+linkColor = "#60A5FA"
+
+# UX
+
+[client]
+showErrorDetails = "stacktrace"
+toolbarMode = "viewer"
+
+[server]
+headless = false
+runOnSave = true
+
+[browser]
+gatherUsageStats = false
