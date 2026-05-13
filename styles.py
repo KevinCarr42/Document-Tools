@@ -138,7 +138,9 @@ _GLOBAL_CSS = """
   [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] {
     position: fixed !important;
     top: 0;
-    right: 4rem;
+    /* Held ~100px left of the hamburger so the running widget fits without
+       shoving the toggle when it appears. */
+    right: 10rem;
     height: 3.75rem;
     z-index: 999991;
     display: flex !important;
@@ -147,7 +149,6 @@ _GLOBAL_CSS = """
     max-width: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    transition: right 0.2s ease;
   }
   /* Style the actual button: subtle, blends into the banner */
   [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button {
@@ -175,24 +176,10 @@ _GLOBAL_CSS = """
     }
   }
 
-  /* Push the nav tabs further left so the lang toggle has room (was right: 4rem). */
+  /* Push the nav tabs further left to clear the lang toggle. Fixed position —
+     no status-widget override, so nothing moves when scripts run. */
   [data-testid="stTopNavSection"] {
-    right: 12rem !important;
-    transition: right 0.2s ease;
-  }
-
-  /* ---- Running-state anchoring -------------------------------------------
-     Streamlit mounts [data-testid="stStatusWidget"] only when there's an
-     active status (script running, rerun requested, connection issue). When
-     that happens, slide the lang toggle and nav further left so the running
-     icon + text have clear space between the toggle and the hamburger. */
-  body:has(header[data-testid="stHeader"] [data-testid="stStatusWidget"])
-    [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] {
-    right: 12rem !important;
-  }
-  body:has(header[data-testid="stHeader"] [data-testid="stStatusWidget"])
-    [data-testid="stTopNavSection"] {
-    right: 20rem !important;
+    right: 18rem !important;
   }
 </style>
 """
