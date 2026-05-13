@@ -19,6 +19,8 @@ TRANSLATIONS = {
         "translate.too_big": "Even after shrinking the file is {size}, still over the 10 MB limit. This document likely has very little compressible image content. Translation is not supported yet (would require the async batch client).",
         "translate.shrinker_failed": "Shrinker failed: {error}",
         "translate.azure_error": "Azure translation error: {error}",
+        "translate.max_reduction": "Maximum image size reduction",
+        "translate.max_reduction_help": "If you plan to replace images after translation, reducing image quality can make any unreplaced images more noticeable.",
 
         "shrink.caption": "Upload a .docx file and shrink it by re-encoding embedded images to fit a target size.",
         "shrink.uploader": "Upload Document to Shrink",
@@ -27,6 +29,7 @@ TRANSLATIONS = {
         "shrink.spinner": "Shrinking embedded images…",
         "shrink.complete": "Shrunk: {before} → {after}",
         "shrink.failed": "Shrinker failed: {error}",
+        "shrink.maintain_quality": "Maintain image quality",
 
         "format.coming_soon": "Coming soon...",
 
@@ -54,6 +57,8 @@ TRANSLATIONS = {
         "translate.too_big": "Après réduction, le fichier fait toujours {size}, au-delà de la limite de 10 Mo. Ce document contient probablement peu d'images compressibles. La traduction n'est pas encore prise en charge (nécessiterait le client de traduction par lots asynchrone).",
         "translate.shrinker_failed": "Échec de la réduction : {error}",
         "translate.azure_error": "Erreur de traduction Azure : {error}",
+        "translate.max_reduction": "Réduction maximale de la taille des images",
+        "translate.max_reduction_help": "Si vous prévoyez remplacer les images après la traduction, réduire la qualité des images peut rendre les images non remplacées plus visibles.",
 
         "shrink.caption": "Téléversez un fichier .docx pour le réduire en ré-encodant les images intégrées jusqu'à la taille cible.",
         "shrink.uploader": "Téléverser un document à réduire",
@@ -62,6 +67,7 @@ TRANSLATIONS = {
         "shrink.spinner": "Réduction des images intégrées…",
         "shrink.complete": "Réduit : {before} → {after}",
         "shrink.failed": "Échec de la réduction : {error}",
+        "shrink.maintain_quality": "Conserver la qualité des images",
 
         "format.coming_soon": "Bientôt disponible...",
 
