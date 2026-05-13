@@ -1,5 +1,6 @@
 import io
 import hashlib
+import logging
 import re
 import zipfile
 from pathlib import Path
@@ -8,6 +9,8 @@ from PIL import Image
 
 Image.MAX_IMAGE_PIXELS = None
 
+logger = logging.getLogger("doc_tools.shrinker")
+
 
 def compress_docx_images(file_path, quality=80, max_width=1000, target_bytes=None, min_compress_width=800, min_byte_size=50_000, maintain_image_quality=True, extreme_only=False):
     p = Path(file_path)
@@ -15,38 +18,37 @@ def compress_docx_images(file_path, quality=80, max_width=1000, target_bytes=Non
     
     input_mb = p.stat().st_size / 1024 / 1024
     target_str = f"{target_bytes / 1024 / 1024:.1f} MB" if target_bytes else "no target"
-    print(f"[shrinker] input: {p.name} ({input_mb:.2f} MB) | target: {target_str}")
+    logger.info(f"[shrinker] input: {p.name} ({input_mb:.2f} MB) | target: {target_str}")
     
-    attempts = [(quality, max_width, False)]
-    if target_bytes is not None:
-        attempts = [
-            (quality, max_width, False),
-            (85, 1200, False),
-            (75, 1000, True),
-            (65, 900, True),
-            (55, 800, True),
-            (45, 700, True),
-            (35, 600, True),
-            (25, 500, True),
-            (10, 100, True),
-        ]
-    if not maintain_image_quality:
-        MIN_QUALITY = 45
-        attempts = [a for a in attempts if a[0] > MIN_QUALITY]
+    attempts = [
+        (quality, max_width, False),
+        (85, 1200, False),
+        (75, 1000, True),
+        (65, 900, True),
+        (55, 800, True),
+        (45, 700, True),
+        (35, 600, True),
+        (25, 500, True),
+        (10, 100, True),
+    ]
+    if extreme_only:
+        attempts = [attempts[-1]]
         min_compress_width = 0
         min_byte_size = 0
-    if extreme_only:
-        attempts = attempts[-1]
+    elif maintain_image_quality:
+        MIN_QUALITY = 45
+        attempts = [a for a in attempts if a[0] > MIN_QUALITY]
+    else:
         min_compress_width = 0
         min_byte_size = 0
     
     min_widths_per_part = _scan_image_min_widths(p)
     cropped_count = sum(1 for w in min_widths_per_part.values() if w >= max_width)
-    print(f"[shrinker] scanned {len(min_widths_per_part)} image refs; {cropped_count} need extra source width to render crops sharply")
+    logger.info(f"[shrinker] scanned {len(min_widths_per_part)} image refs; {cropped_count} need extra source width to render crops sharply")
     
     for attempt_idx, (q, mw, force_jpeg) in enumerate(attempts, start=1):
         fmt_label = "JPEG-only" if force_jpeg else "smart-format"
-        print(f"[shrinker] attempt {attempt_idx}/{len(attempts)}: quality={q}, max_width={mw}, {fmt_label}")
+        logger.info(f"[shrinker] attempt {attempt_idx}/{len(attempts)}: quality={q}, max_width={mw}, {fmt_label}")
         doc = Document(p)
         
         compressed_count = 0
@@ -64,7 +66,7 @@ def compress_docx_images(file_path, quality=80, max_width=1000, target_bytes=Non
                     compressed_count += 1
                 else:
                     skipped_count += 1
-        print(f"[shrinker]   compressed {compressed_count} images, skipped {skipped_count} (already small or no win)")
+        logger.info(f"[shrinker]   compressed {compressed_count} images, skipped {skipped_count} (already small or no win)")
         
         doc.save(output_path)
         _normalize_media_extensions(output_path)
@@ -72,12 +74,12 @@ def compress_docx_images(file_path, quality=80, max_width=1000, target_bytes=Non
         
         out_mb = output_path.stat().st_size / 1024 / 1024
         if target_bytes is None or output_path.stat().st_size <= target_bytes:
-            print(f"[shrinker] done: {out_mb:.2f} MB -> {output_path.name}")
+            logger.info(f"[shrinker] done: {out_mb:.2f} MB -> {output_path.name}")
             return output_path
-        print(f"[shrinker]   result: {out_mb:.2f} MB, still over target ({target_str}); retrying with more aggressive settings")
+        logger.info(f"[shrinker]   result: {out_mb:.2f} MB, still over target ({target_str}); retrying with more aggressive settings")
     
     out_mb = output_path.stat().st_size / 1024 / 1024
-    print(f"[shrinker] exhausted ladder; best result: {out_mb:.2f} MB -> {output_path.name}")
+    logger.info(f"[shrinker] exhausted ladder; best result: {out_mb:.2f} MB -> {output_path.name}")
     return output_path
 
 
@@ -188,7 +190,7 @@ def _dedupe_media_in_docx(docx_path):
     if not canonical:
         return
     
-    print(f"[shrinker]   deduped {len(canonical)} duplicate image part(s)")
+    logger.info(f"[shrinker]   deduped {len(canonical)} duplicate image part(s)")
     
     for name in list(items.keys()):
         if not name.endswith(".rels"):
@@ -259,7 +261,7 @@ def _normalize_media_extensions(docx_path):
     if not rename_map:
         return
     
-    print(f"[shrinker]   renamed {len(rename_map)} part(s) so extension matches re-encoded content")
+    logger.info(f"[shrinker]   renamed {len(rename_map)} part(s) so extension matches re-encoded content")
     
     for old, new in rename_map.items():
         items[new] = items.pop(old)

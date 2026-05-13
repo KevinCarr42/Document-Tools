@@ -5,7 +5,7 @@ TRANSLATIONS = {
         "tab.translate": "Translate Document",
         "tab.shrink": "Shrink Document",
         "tab.format": "Format Document",
-
+        
         "translate.caption": "Upload a .docx file. It will be shrunk to ≤10 MB if needed, then translated between English and French.",
         "translate.uploader": "Upload Document to Translate",
         "translate.direction_en": "English → French",
@@ -21,29 +21,30 @@ TRANSLATIONS = {
         "translate.azure_error": "Azure translation error: {error}",
         "translate.max_reduction": "Maximum image size reduction",
         "translate.max_reduction_help": "If you plan to replace images after translation, reducing image quality can make any unreplaced images more noticeable.",
-
+        
         "shrink.caption": "Upload a .docx file and shrink it by re-encoding embedded images to fit a target size.",
         "shrink.uploader": "Upload Document to Shrink",
         "shrink.target_label": "Target size (MB)",
         "shrink.button": "Shrink",
         "shrink.spinner": "Shrinking embedded images…",
         "shrink.complete": "Shrunk: {before} → {after}",
+        "shrink.over_target": "Shrunk: {before} → {after} — final document size still exceeds target size",
         "shrink.failed": "Shrinker failed: {error}",
         "shrink.maintain_quality": "Maintain image quality",
-
+        
         "format.coming_soon": "Coming soon...",
-
+        
         "common.download": "Download Link: {filename}",
         "uploader.dropzone": "Drag and drop file here",
         "uploader.browse": "Browse files",
-
+        
         "lang.toggle_label": "Français",
     },
     "fr": {
         "tab.translate": "Traduire un document",
         "tab.shrink": "Réduire un document",
         "tab.format": "Mise en forme",
-
+        
         "translate.caption": "Téléversez un fichier .docx. Il sera réduit à ≤10 Mo au besoin, puis traduit entre l'anglais et le français.",
         "translate.uploader": "Téléverser un document à traduire",
         "translate.direction_en": "Anglais → Français",
@@ -59,22 +60,23 @@ TRANSLATIONS = {
         "translate.azure_error": "Erreur de traduction Azure : {error}",
         "translate.max_reduction": "Réduction maximale de la taille des images",
         "translate.max_reduction_help": "Si vous prévoyez remplacer les images après la traduction, réduire la qualité des images peut rendre les images non remplacées plus visibles.",
-
+        
         "shrink.caption": "Téléversez un fichier .docx pour le réduire en ré-encodant les images intégrées jusqu'à la taille cible.",
         "shrink.uploader": "Téléverser un document à réduire",
         "shrink.target_label": "Taille cible (Mo)",
         "shrink.button": "Réduire",
         "shrink.spinner": "Réduction des images intégrées…",
         "shrink.complete": "Réduit : {before} → {after}",
+        "shrink.over_target": "Réduit : {before} → {after} — la taille finale du document dépasse encore la taille cible",
         "shrink.failed": "Échec de la réduction : {error}",
         "shrink.maintain_quality": "Conserver la qualité des images",
-
+        
         "format.coming_soon": "Bientôt disponible...",
-
+        
         "common.download": "Lien de téléchargement : {filename}",
         "uploader.dropzone": "Glisser-déposer un fichier ici",
         "uploader.browse": "Parcourir les fichiers",
-
+        
         "lang.toggle_label": "English",
     },
 }
@@ -120,22 +122,17 @@ WIDGET_TEXT_OVERRIDES = {
 
 
 def widget_text_map():
-    """Returns {found_text: replacement_text} for the active language.
-    Includes the reverse direction so switching languages cleans up stale text."""
     lang = get_lang()
     mapping = {}
-
-    # EN↔FR swaps of Streamlit's own English defaults
+    
     if lang == "fr":
         mapping.update({en: fr for en, fr in WIDGET_TEXT_PAIRS})
     else:
         mapping.update({fr: en for en, fr in WIDGET_TEXT_PAIRS})
-
-    # Overrides: replace Streamlit's default with our custom text in both modes
+    
     for default_text, by_lang in WIDGET_TEXT_OVERRIDES.items():
         mapping[default_text] = by_lang[lang]
-        # If user toggled languages, also map the previous override back so it updates
         other_lang = "en" if lang == "fr" else "fr"
         mapping[by_lang[other_lang]] = by_lang[lang]
-
+    
     return mapping

@@ -1,11 +1,16 @@
 import json
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 _GLOBAL_CSS = """
 <style>
   [data-testid="stFileUploader"] [data-testid="stBaseButton-borderlessIcon"] { display: none !important; }
+
+  /* Hide the script-runner iframe used by inject_text_replacements. st.iframe
+     requires height >= 1, so we hide its container to keep the layout flush. */
+  [data-testid="stElementContainer"]:has(> iframe[srcdoc]) {
+    display: none !important;
+  }
 
   /* Tighten the gap between the fixed banner and the first page element. Default
      padding-top is 8rem (room for the toolbar Streamlit's auto-hides). We've
@@ -202,11 +207,12 @@ def inject_text_replacements(mapping: dict):
     'Browse files') by replacing their text nodes via JS. `mapping` is
     {found_text: replacement_text}.
 
-    Runs in an iframe (components.html) because st.markdown sanitizes <script> tags.
+    Runs in an iframe (st.iframe) because st.markdown sanitizes <script> tags.
     A MutationObserver on the parent document re-applies replacements whenever
     Streamlit re-renders DOM subtrees."""
     mapping_json = json.dumps(mapping or {})
-    components.html(
+    # height=1 (minimum st.iframe allows); the container is hidden via CSS in _GLOBAL_CSS.
+    st.iframe(
         f"""
         <script>
           (function() {{
@@ -273,5 +279,5 @@ def inject_text_replacements(mapping: dict):
           }})();
         </script>
         """,
-        height=0,
+        height=1,
     )

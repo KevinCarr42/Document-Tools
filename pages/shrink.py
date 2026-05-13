@@ -28,12 +28,14 @@ if "shrunk_bytes" not in st.session_state:
     st.session_state.shrunk_name = None
     st.session_state.shrunk_file_id = None
     st.session_state.shrunk_original_size = None
+    st.session_state.shrunk_target_bytes = None
 
 if uploaded is not None and st.session_state.shrunk_file_id != uploaded.file_id:
     st.session_state.shrunk_bytes = None
     st.session_state.shrunk_name = None
     st.session_state.shrunk_file_id = None
     st.session_state.shrunk_original_size = None
+    st.session_state.shrunk_target_bytes = None
 
 if uploaded is not None:
     raw = uploaded.getvalue()
@@ -69,11 +71,16 @@ if uploaded is not None:
             st.session_state.shrunk_name = f"{stem}_shrunk.docx"
             st.session_state.shrunk_file_id = uploaded.file_id
             st.session_state.shrunk_original_size = original_size
+            st.session_state.shrunk_target_bytes = target_bytes
             st.rerun()
 
 if st.session_state.shrunk_bytes is not None:
     new_size = len(st.session_state.shrunk_bytes)
-    st.success(t("shrink.complete", before=mb(st.session_state.shrunk_original_size), after=mb(new_size)))
+    target = st.session_state.shrunk_target_bytes
+    if target is not None and new_size > target:
+        st.error(t("shrink.over_target", before=mb(st.session_state.shrunk_original_size), after=mb(new_size)))
+    else:
+        st.success(t("shrink.complete", before=mb(st.session_state.shrunk_original_size), after=mb(new_size)))
     st.download_button(
         label=t("common.download", filename=st.session_state.shrunk_name),
         data=st.session_state.shrunk_bytes,
