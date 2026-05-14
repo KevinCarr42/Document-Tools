@@ -2,6 +2,29 @@ import json
 
 import streamlit as st
 
+# Header/banner colors that must follow the *Streamlit* theme the user picked
+# (light / dark / system), not the OS theme. prefers-color-scheme reads the OS,
+# which is why the header used to go white-on-white when the menu and the OS
+# disagreed. These are applied via _build_theme_css() using st.context.theme.
+_THEME_PALETTES = {
+    "light": {
+        "header_bg": "#FFFFFF",
+        "header_border": "rgba(128, 128, 128, 0.15)",
+        "header_fg": "#0F172A",
+        "toggle_border": "rgba(128, 128, 128, 0.3)",
+        "toggle_hover_bg": "rgba(0, 0, 0, 0.05)",
+        "toggle_hover_border": "rgba(128, 128, 128, 0.5)",
+    },
+    "dark": {
+        "header_bg": "#0B1220",
+        "header_border": "rgba(255, 255, 255, 0.08)",
+        "header_fg": "#F1F5F9",
+        "toggle_border": "rgba(255, 255, 255, 0.2)",
+        "toggle_hover_bg": "rgba(255, 255, 255, 0.08)",
+        "toggle_hover_border": "rgba(255, 255, 255, 0.35)",
+    },
+}
+
 _GLOBAL_CSS = """
 <style>
   [data-testid="stFileUploader"] [data-testid="stBaseButton-borderlessIcon"] { display: none !important; }
@@ -31,28 +54,9 @@ _GLOBAL_CSS = """
     text-decoration: underline !important;
   }
 
-  /* Fixed header — always-visible app title.
-     var(--background-color) doesn't resolve here (header is a sibling of .stApp),
-     so we hardcode + use prefers-color-scheme for the dark variant. */
-  header[data-testid="stHeader"] {
-    background-color: #FFFFFF !important;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
-  }
-  @media (prefers-color-scheme: dark) {
-    header[data-testid="stHeader"] {
-      background-color: #0B1220 !important;
-      border-bottom-color: rgba(255, 255, 255, 0.08);
-    }
-    header[data-testid="stHeader"]::before {
-      color: #F1F5F9;
-    }
-  }
-
-  /* All native header content — hamburger, "Running…" status text, spinner icons.
-     White in both modes. The ::before title is unaffected (pseudo-element). */
-  header[data-testid="stHeader"] * {
-    color: #FFFFFF !important;
-  }
+  /* Fixed header — always-visible app title. Background, border and text colors
+     are theme-dependent and injected by _build_theme_css() (driven by
+     st.context.theme, not prefers-color-scheme). */
 
   /* ---- Top navigation hoisted into the banner ------------------------------
      Streamlit renders st.navigation(position="top") just below the header by
@@ -124,9 +128,7 @@ _GLOBAL_CSS = """
     opacity: 1;
   }
 
-  @media (prefers-color-scheme: dark) {
-    [data-testid="stTopNavLink"] { color: #F1F5F9 !important; }
-  }
+  /* Nav link text color is theme-dependent — see _build_theme_css(). */
 
   /* ---- Language toggle ----------------------------------------------------
      The button is rendered as the first thing in streamlit_app.py, preceded
@@ -138,9 +140,7 @@ _GLOBAL_CSS = """
   [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] {
     position: fixed !important;
     top: 0;
-    /* Held ~100px left of the hamburger so the running widget fits without
-       shoving the toggle when it appears. */
-    right: 10rem;
+    right: 11rem;
     height: 3.75rem;
     z-index: 999991;
     display: flex !important;
@@ -150,30 +150,16 @@ _GLOBAL_CSS = """
     margin: 0 !important;
     padding: 0 !important;
   }
-  /* Style the actual button: subtle, blends into the banner */
+  /* Style the actual button: subtle, blends into the banner. Text color and
+     border/hover colors are theme-dependent — see _build_theme_css(). */
   [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button {
     background: transparent !important;
     border: 1px solid rgba(128, 128, 128, 0.3) !important;
-    color: #0F172A !important;
     font-size: 0.9rem !important;
     font-weight: 500 !important;
     padding: 0.35rem 0.85rem !important;
     border-radius: 0.375rem !important;
     transition: background-color 0.15s ease, border-color 0.15s ease;
-  }
-  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button:hover {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-    border-color: rgba(128, 128, 128, 0.5) !important;
-  }
-  @media (prefers-color-scheme: dark) {
-    [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button {
-      color: #F1F5F9 !important;
-      border-color: rgba(255, 255, 255, 0.2) !important;
-    }
-    [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button:hover {
-      background-color: rgba(255, 255, 255, 0.08) !important;
-      border-color: rgba(255, 255, 255, 0.35) !important;
-    }
   }
 
   /* Push the nav tabs further left to clear the lang toggle. Fixed position —
@@ -185,8 +171,49 @@ _GLOBAL_CSS = """
 """
 
 
+def _build_theme_css(palette):
+    return f"""
+<style>
+  /* Header banner — colors keyed to the Streamlit theme the user selected.
+     The header is a sibling of .stApp so its theme vars don't resolve; we set
+     explicit colors here instead. */
+  header[data-testid="stHeader"] {{
+    background-color: {palette["header_bg"]} !important;
+    border-bottom: 1px solid {palette["header_border"]};
+  }}
+  header[data-testid="stHeader"]::before {{
+    color: {palette["header_fg"]};
+  }}
+  /* All native header content — hamburger, "Running…" status text, spinner
+     icons (SVGs use fill:currentColor) — plus the hoisted nav links. */
+  header[data-testid="stHeader"] *,
+  [data-testid="stTopNavLink"],
+  [data-testid="stTopNavLink"] *,
+  [data-testid="stTopNavLink"] p {{
+    color: {palette["header_fg"]} !important;
+  }}
+  /* Language toggle button: theme-aware text, border and hover. */
+  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button {{
+    color: {palette["header_fg"]} !important;
+    border-color: {palette["toggle_border"]} !important;
+  }}
+  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button:hover {{
+    background-color: {palette["toggle_hover_bg"]} !important;
+    border-color: {palette["toggle_hover_border"]} !important;
+  }}
+</style>
+"""
+
+
 def inject_global_styles():
+    theme = getattr(st.context, "theme", None)
+    theme_type = getattr(theme, "type", None)
+    if theme_type not in _THEME_PALETTES:
+        # st.context.theme can be None on the very first run before the frontend
+        # reports it; fall back to the configured base ("dark").
+        theme_type = "dark"
     st.markdown(_GLOBAL_CSS, unsafe_allow_html=True)
+    st.markdown(_build_theme_css(_THEME_PALETTES[theme_type]), unsafe_allow_html=True)
 
 
 def inject_text_replacements(mapping: dict):
