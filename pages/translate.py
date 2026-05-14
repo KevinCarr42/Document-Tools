@@ -4,13 +4,13 @@ from pathlib import Path
 import streamlit as st
 from azure.core.exceptions import HttpResponseError
 
-from i18n import t
 from src.doc_shrinker import compress_docx_images
 from src.helpers import (
     SYNC_DOCUMENT_TRANSLATION_MAX_BYTES,
     translate_document_bytes,
 )
-from utils import mb
+from src.i18n import t
+from src.utils import mb
 
 MAX_BYTES = SYNC_DOCUMENT_TRANSLATION_MAX_BYTES
 

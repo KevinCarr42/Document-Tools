@@ -6,6 +6,7 @@ font = "sans serif"
 baseRadius = "6px"
 primaryColor = "#2563EB"
 
+
 # Light mode
 
 [theme.light]

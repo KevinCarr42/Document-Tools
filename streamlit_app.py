@@ -4,8 +4,8 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
-from i18n import t, toggle_lang, widget_text_map
-from styles import inject_global_styles, inject_text_replacements
+from src.i18n import t, toggle_lang, widget_text_map
+from src.styles import inject_global_styles, inject_text_replacements
 
 load_dotenv(override=True)
 _dev_mode = os.environ.get("DEV_MODE", "").strip().lower() in ("1", "true", "yes", "on")

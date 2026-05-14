@@ -3,9 +3,9 @@ from pathlib import Path
 
 import streamlit as st
 
-from i18n import t
+from src.i18n import t
 from src.doc_shrinker import compress_docx_images
-from utils import mb
+from src.utils import mb
 
 st.caption(t("shrink.caption"))
 
