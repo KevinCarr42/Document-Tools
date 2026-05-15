@@ -8,3 +8,4 @@ data/
 *.jpg
 TODO.txt
 scripts/ram_timeline.csv
+temp*

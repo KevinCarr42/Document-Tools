@@ -32,6 +32,7 @@ if st.button(t("lang.toggle_label"), key="lang_toggle"):
 
 pages = [
     st.Page("pages/translate.py", title=t("tab.translate"), default=True, url_path="translate"),
+    st.Page("pages/proofread.py", title=t("tab.proofread"), url_path="proofread"),
     st.Page("pages/shrink.py", title=t("tab.shrink"), url_path="shrink"),
     st.Page("pages/format.py", title=t("tab.format"), url_path="format"),
 ]

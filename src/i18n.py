@@ -4,6 +4,7 @@ TRANSLATIONS = {
     "en": {
         "tab.translate": "Translate Document",
         "tab.shrink": "Shrink Document",
+        "tab.proofread": "Proofread Translation",
         "tab.format": "Format Document",
         
         "translate.caption": "Upload a .docx file. It will be shrunk to ≤10 MB if needed, then translated between English and French.",
@@ -32,6 +33,20 @@ TRANSLATIONS = {
         "shrink.failed": "Shrinker failed: {error}",
         "shrink.maintain_quality": "Maintain image quality",
         
+        "proofread.caption": "Upload a translated .docx and (optionally) the source document. An LLM proofreads the translation, looping until no further changes are suggested.",
+        "proofread.uploader_target": "Translated document (required)",
+        "proofread.uploader_source": "Source document (optional — improves translation accuracy)",
+        "proofread.max_iterations_label": "Maximum proofreading passes",
+        "proofread.button": "Proofread",
+        "proofread.spinner": "Proofreading…",
+        "proofread.complete": "Proofreading complete.",
+        "proofread.no_changes": "No changes were suggested.",
+        "proofread.too_large": "Document too large for single-pass proofreading. Chunking is not yet supported.",
+        "proofread.error": "Proofreading failed: {error}",
+        "proofread.skipped_warnings": "Some paragraphs were skipped (hyperlinks, fields, or images). See the changes file.",
+        "proofread.download_docx": "Download proofread .docx: {filename}",
+        "proofread.download_changes": "Download change log: {filename}",
+        
         "format.coming_soon": "Coming soon...",
         
         "common.download": "Download Link: {filename}",
@@ -43,6 +58,7 @@ TRANSLATIONS = {
     "fr": {
         "tab.translate": "Traduire un document",
         "tab.shrink": "Réduire un document",
+        "tab.proofread": "Réviser la traduction",
         "tab.format": "Mise en forme",
         
         "translate.caption": "Téléversez un fichier .docx. Il sera réduit à ≤10 Mo au besoin, puis traduit entre l'anglais et le français.",
@@ -70,6 +86,20 @@ TRANSLATIONS = {
         "shrink.over_target": "Réduit : {before} → {after} — la taille finale du document dépasse encore la taille cible",
         "shrink.failed": "Échec de la réduction : {error}",
         "shrink.maintain_quality": "Conserver la qualité des images",
+        
+        "proofread.caption": "Téléversez un fichier .docx traduit et, au besoin, le document source. Un agent LLM révise la traduction et boucle jusqu'à ce qu'aucune autre correction ne soit proposée.",
+        "proofread.uploader_target": "Document traduit (obligatoire)",
+        "proofread.uploader_source": "Document source (optionnel — améliore la fidélité de la traduction)",
+        "proofread.max_iterations_label": "Nombre maximal de passes de révision",
+        "proofread.button": "Réviser",
+        "proofread.spinner": "Révision en cours…",
+        "proofread.complete": "Révision terminée.",
+        "proofread.no_changes": "Aucune correction proposée.",
+        "proofread.too_large": "Document trop volumineux pour une révision en une seule passe. Le découpage n'est pas encore pris en charge.",
+        "proofread.error": "Échec de la révision : {error}",
+        "proofread.skipped_warnings": "Certains paragraphes ont été ignorés (hyperliens, champs ou images). Voir le fichier des corrections.",
+        "proofread.download_docx": "Télécharger le .docx révisé : {filename}",
+        "proofread.download_changes": "Télécharger le journal des corrections : {filename}",
         
         "format.coming_soon": "Bientôt disponible...",
         
