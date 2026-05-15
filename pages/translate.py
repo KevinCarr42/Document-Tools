@@ -10,6 +10,7 @@ from src.helpers import (
     translate_document_bytes,
 )
 from src.i18n import t
+from src.proofreader import DEFAULT_MAX_ITERATIONS, proofread_bytes
 from src.utils import mb
 
 MAX_BYTES = SYNC_DOCUMENT_TRANSLATION_MAX_BYTES
@@ -48,11 +49,15 @@ if "translated_bytes" not in st.session_state:
     st.session_state.translated_bytes = None
     st.session_state.translated_name = None
     st.session_state.translated_file_id = None
+    st.session_state.translate_source_bytes = None
+    st.session_state.translate_proofread_result = None
 
 if uploaded is not None and st.session_state.translated_file_id != uploaded.file_id:
     st.session_state.translated_bytes = None
     st.session_state.translated_name = None
     st.session_state.translated_file_id = None
+    st.session_state.translate_source_bytes = None
+    st.session_state.translate_proofread_result = None
 
 if uploaded is not None:
     raw = uploaded.getvalue()
@@ -114,11 +119,12 @@ if uploaded is not None:
                     translated = None
             
             if translated is not None:
-                # TODO: proofreading pass
                 stem = Path(uploaded.name).stem
                 st.session_state.translated_bytes = translated
                 st.session_state.translated_name = f"{stem}_translated.docx"
                 st.session_state.translated_file_id = uploaded.file_id
+                st.session_state.translate_source_bytes = ready_bytes
+                st.session_state.translate_proofread_result = None
                 st.rerun()
 
 if st.session_state.translated_bytes is not None:
@@ -130,3 +136,69 @@ if st.session_state.translated_bytes is not None:
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         type="tertiary",
     )
+    
+    proofread_result = st.session_state.translate_proofread_result
+    if proofread_result is None:
+        st.markdown(f"**{t('translate.proofread_prompt')}**")
+        proofread_iterations = st.number_input(
+            t("proofread.max_iterations_label"),
+            min_value=1,
+            max_value=10,
+            value=DEFAULT_MAX_ITERATIONS,
+            step=1,
+            key="translate_proofread_iterations",
+        )
+        if st.button(t("proofread.button"), type="secondary", key="translate_proofread_btn"):
+            with st.spinner(t("proofread.spinner")):
+                try:
+                    proofread_docx, proofread_changes = proofread_bytes(
+                        target_bytes=st.session_state.translated_bytes,
+                        source_bytes=st.session_state.translate_source_bytes,
+                        target_filename=st.session_state.translated_name,
+                        max_iterations=int(proofread_iterations),
+                    )
+                except ValueError as e:
+                    msg = str(e)
+                    if "too large" in msg.lower():
+                        st.error(t("proofread.too_large"))
+                    else:
+                        st.error(t("proofread.error", error=msg))
+                    proofread_docx = None
+                    proofread_changes = None
+                except Exception as e:
+                    st.error(t("proofread.error", error=str(e)))
+                    proofread_docx = None
+                    proofread_changes = None
+            
+            if proofread_docx is not None:
+                stem = Path(st.session_state.translated_name).stem
+                st.session_state.translate_proofread_result = {
+                    "docx_bytes": proofread_docx,
+                    "changes_text": proofread_changes,
+                    "docx_name": f"{stem}_proofread.docx",
+                    "changes_name": f"{stem}_changes.txt",
+                }
+                st.rerun()
+    else:
+        st.success(t("proofread.complete"))
+        if "Warnings" in proofread_result["changes_text"]:
+            st.warning(t("proofread.skipped_warnings"))
+        elif proofread_result["changes_text"].strip() == "No changes.":
+            st.info(t("proofread.no_changes"))
+        
+        st.download_button(
+            label=t("proofread.download_docx", filename=proofread_result["docx_name"]),
+            data=proofread_result["docx_bytes"],
+            file_name=proofread_result["docx_name"],
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            type="tertiary",
+            key="translate_proofread_download_docx",
+        )
+        st.download_button(
+            label=t("proofread.download_changes", filename=proofread_result["changes_name"]),
+            data=proofread_result["changes_text"].encode("utf-8"),
+            file_name=proofread_result["changes_name"],
+            mime="text/plain",
+            type="tertiary",
+            key="translate_proofread_download_changes",
+        )

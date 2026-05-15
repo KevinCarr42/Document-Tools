@@ -22,6 +22,7 @@ TRANSLATIONS = {
         "translate.azure_error": "Azure translation error: {error}",
         "translate.max_reduction": "Maximum image size reduction",
         "translate.max_reduction_help": "If you plan to replace images after translation, reducing image quality can make any unreplaced images more noticeable.",
+        "translate.proofread_prompt": "Would you like to proofread this translation against the source?",
         
         "shrink.caption": "Upload a .docx file and shrink it by re-encoding embedded images to fit a target size.",
         "shrink.uploader": "Upload Document to Shrink",
@@ -76,6 +77,7 @@ TRANSLATIONS = {
         "translate.azure_error": "Erreur de traduction Azure : {error}",
         "translate.max_reduction": "Réduction maximale de la taille des images",
         "translate.max_reduction_help": "Si vous prévoyez remplacer les images après la traduction, réduire la qualité des images peut rendre les images non remplacées plus visibles.",
+        "translate.proofread_prompt": "Souhaitez-vous réviser cette traduction par rapport au document source ?",
         
         "shrink.caption": "Téléversez un fichier .docx pour le réduire en ré-encodant les images intégrées jusqu'à la taille cible.",
         "shrink.uploader": "Téléverser un document à réduire",

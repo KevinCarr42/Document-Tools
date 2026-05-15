@@ -17,7 +17,7 @@ if not _app_logger.handlers:
     _handler.setFormatter(logging.Formatter("%(message)s"))
     _app_logger.addHandler(_handler)
 
-st.set_page_config(page_title="Document Tools", page_icon=None)
+st.set_page_config(page_title="SciTrans", page_icon=None)
 inject_global_styles()
 inject_text_replacements(widget_text_map())
 
