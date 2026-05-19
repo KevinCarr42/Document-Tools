@@ -28,12 +28,15 @@ uv sync
 Copy `.env.template` to `.env` and fill in your credentials:
 
 ```dotenv
+# Translator
 AZURE_TRANSLATOR_ENDPOINT=https://<your-resource>.cognitiveservices.azure.com/
 AZURE_TRANSLATOR_API_KEY=<your-key>
 
-# Optional — only needed for the chat/LLM helpers
+# Proofreader 
 AZURE_OPENAI_ENDPOINT=https://<your-resource>.openai.azure.com/openai/v1
 AZURE_API_KEY=<your-key>
+
+# Optional - chat helpers, substitute endpoints, etc
 OLLAMA_ENDPOINT=http://localhost:11434/v1
 OLLAMA_API_KEY=<any-string>
 ```
@@ -85,6 +88,7 @@ Document-Tools/
 ├── streamlit_app.py        # Web UI entry point + page router
 ├── pages/
 │   ├── translate.py        # Translate tab
+│   ├── proofread.py        # Proofread tab
 │   ├── shrink.py           # Shrink tab
 │   └── format.py           # Format tab (placeholder)
 ├── src/

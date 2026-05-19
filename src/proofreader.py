@@ -10,6 +10,7 @@ Usage:
 
 import argparse
 import io
+import math
 import re
 import sys
 from pathlib import Path
@@ -19,7 +20,10 @@ from docx.oxml.ns import qn
 
 from src.helpers import gpt_41_chat
 
-MAX_CHARS_TOTAL = 120_000
+CHUNK_CHAR_BUDGET = 40_000
+SOURCE_CHAR_BUDGET = 60_000
+SOURCE_PAD_PARAGRAPHS = 5
+MAX_ABSOLUTE_CHARS = 5_000_000
 DEFAULT_MAX_ITERATIONS = 3
 MAX_OUTPUT_TOKENS = 16_000
 
@@ -239,11 +243,11 @@ def apply_corrections(source, corrected_paragraphs, output):
     return warnings
 
 
-def _render_changes_text(changes_per_iteration, warnings):
+def _render_changes_text(iteration_blocks, warnings):
     lines = []
     any_changes = False
-    for i, changes in enumerate(changes_per_iteration, start=1):
-        lines.append(f"=== Iteration {i} ===")
+    for header, changes in iteration_blocks:
+        lines.append(f"=== {header} ===")
         if not changes:
             lines.append("NONE")
         else:
@@ -271,36 +275,77 @@ def _total_chars(target_paragraphs, source_paragraphs):
     return total
 
 
-def proofread_bytes(
-        target_bytes,
-        source_bytes=None,
-        target_filename="document.docx",
-        max_iterations=DEFAULT_MAX_ITERATIONS,
-):
-    """Proofread target_bytes against optional source_bytes.
+def _chunk_target_paragraphs(target_paragraphs):
+    chunks = []
+    current = []
+    current_chars = 0
+    start_idx = 0
+    
+    for i, para in enumerate(target_paragraphs):
+        para_len = len(para)
+        if current and current_chars + para_len > CHUNK_CHAR_BUDGET:
+            chunks.append((start_idx, current))
+            current = []
+            current_chars = 0
+            start_idx = i
+        current.append(para)
+        current_chars += para_len
+    
+    if current:
+        chunks.append((start_idx, current))
+    
+    if not chunks:
+        chunks.append((0, list(target_paragraphs)))
+    
+    return chunks
 
-    Returns (corrected_docx_bytes, changes_text).
-    """
-    target_paragraphs = read_docx_paragraphs(target_bytes)
-    source_paragraphs = read_docx_paragraphs(source_bytes) if source_bytes else None
+
+def _slice_source_for_chunk(source_paragraphs, target_start, target_end, target_total):
+    if source_paragraphs is None:
+        return None
+    m = len(source_paragraphs)
+    if m == 0 or target_total == 0:
+        return list(source_paragraphs)
     
-    total = _total_chars(target_paragraphs, source_paragraphs)
-    if total > MAX_CHARS_TOTAL:
-        raise ValueError(
-            f"Document too large for single-pass proofread ({total:,} chars; "
-            f"limit {MAX_CHARS_TOTAL:,}). Chunking is not yet supported."
-        )
+    anchor_start = target_start * m / target_total
+    anchor_end = target_end * m / target_total
+    s_start = max(0, math.floor(anchor_start) - SOURCE_PAD_PARAGRAPHS)
+    s_end = min(m, math.ceil(anchor_end) + SOURCE_PAD_PARAGRAPHS)
     
-    system_prompt = (
-        SYSTEM_PROMPT_TRANSLATION if source_paragraphs is not None else SYSTEM_PROMPT_TARGET_ONLY
-    )
+    while (s_end - s_start) > 1 and sum(len(p) for p in source_paragraphs[s_start:s_end]) > SOURCE_CHAR_BUDGET:
+        left_pad = anchor_start - s_start
+        right_pad = s_end - anchor_end
+        if right_pad >= left_pad:
+            s_end -= 1
+        else:
+            s_start += 1
     
-    current = list(target_paragraphs)
+    return source_paragraphs[s_start:s_end]
+
+
+def _rewrite_change_lines_global(changes, global_offset):
+    if global_offset == 0:
+        return list(changes)
+    
+    rewritten = []
+    for line in changes:
+        match = re.search(r"\[(\d+)\]", line)
+        if not match:
+            rewritten.append(line)
+            continue
+        local_idx = int(match.group(1))
+        global_idx = local_idx + global_offset
+        rewritten.append(line.replace(f"[{local_idx}]", f"[{global_idx}]", 1))
+    return rewritten
+
+
+def _proofread_chunk(chunk_paragraphs, source_slice, system_prompt, max_iterations):
+    current = list(chunk_paragraphs)
     changes_per_iteration = []
     previous_changes = None
     
     for _ in range(max_iterations):
-        user_msg = build_user_message(current, source_paragraphs)
+        user_msg = build_user_message(current, source_slice)
         response = gpt_41_chat(user_msg, system=system_prompt, max_output_tokens=MAX_OUTPUT_TOKENS)
         changed, changes = parse_response(response, expected_paragraph_count=len(current))
         
@@ -315,11 +360,66 @@ def proofread_bytes(
         if oscillating:
             break
     
+    return current, changes_per_iteration
+
+
+def proofread_bytes(
+        target_bytes,
+        source_bytes=None,
+        target_filename="document.docx",
+        max_iterations=DEFAULT_MAX_ITERATIONS,
+        progress_callback=None,
+):
+    """Proofread target_bytes against optional source_bytes.
+
+    Returns (corrected_docx_bytes, changes_text).
+    """
+    target_paragraphs = read_docx_paragraphs(target_bytes)
+    source_paragraphs = read_docx_paragraphs(source_bytes) if source_bytes else None
+    
+    total = _total_chars(target_paragraphs, source_paragraphs)
+    if total > MAX_ABSOLUTE_CHARS:
+        raise ValueError(
+            f"Document too large to proofread ({total:,} chars; "
+            f"limit {MAX_ABSOLUTE_CHARS:,})."
+        )
+    
+    system_prompt = (
+        SYSTEM_PROMPT_TRANSLATION if source_paragraphs is not None else SYSTEM_PROMPT_TARGET_ONLY
+    )
+    
+    chunks = _chunk_target_paragraphs(target_paragraphs)
+    total_chunks = len(chunks)
+    current = list(target_paragraphs)
+    iteration_blocks = []
+    
+    for chunk_idx, (global_start, chunk_paragraphs) in enumerate(chunks):
+        chunk_end = global_start + len(chunk_paragraphs)
+        source_slice = _slice_source_for_chunk(
+            source_paragraphs, global_start, chunk_end, len(target_paragraphs)
+        )
+        updated_chunk, chunk_changes_per_iter = _proofread_chunk(
+            chunk_paragraphs, source_slice, system_prompt, max_iterations
+        )
+        for k, new_text in enumerate(updated_chunk):
+            current[global_start + k] = new_text
+        
+        for iter_idx, changes in enumerate(chunk_changes_per_iter, start=1):
+            global_changes = _rewrite_change_lines_global(changes, global_start)
+            if total_chunks == 1:
+                header = f"Iteration {iter_idx}"
+            else:
+                header = f"Chunk {chunk_idx + 1}/{total_chunks}, Iteration {iter_idx}"
+            iteration_blocks.append((header, global_changes))
+        
+        if progress_callback is not None:
+            progress_callback(chunk_idx + 1, total_chunks)
+    
     output_buffer = io.BytesIO()
     warnings = apply_corrections(target_bytes, current, output_buffer)
     output_buffer.seek(0)
     
-    changes_text = _render_changes_text(changes_per_iteration, warnings)
+    changes_text = _render_changes_text(iteration_blocks, warnings)
     return output_buffer.getvalue(), changes_text
 
 

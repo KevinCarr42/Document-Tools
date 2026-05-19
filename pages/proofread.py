@@ -56,6 +56,13 @@ if target is not None:
         st.write(f"**{source.name}** — {mb(len(source_bytes))}")
     
     if result is None and st.button(t("proofread.button"), type="primary"):
+        progress = st.progress(0.0, text=t("proofread.spinner"))
+        
+        
+        def _on_chunk(done, total):
+            progress.progress(done / total, text=t("proofread.progress", done=done, total=total))
+        
+        
         with st.spinner(t("proofread.spinner")):
             try:
                 docx_bytes, changes_text = proofread_bytes(
@@ -63,6 +70,7 @@ if target is not None:
                     source_bytes=source_bytes,
                     target_filename=target.name,
                     max_iterations=int(max_iterations),
+                    progress_callback=_on_chunk,
                 )
             except ValueError as e:
                 msg = str(e)
@@ -76,6 +84,7 @@ if target is not None:
                 st.error(t("proofread.error", error=str(e)))
                 docx_bytes = None
                 changes_text = None
+        progress.empty()
         
         if docx_bytes is not None:
             stem = Path(target.name).stem

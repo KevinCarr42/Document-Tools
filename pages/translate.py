@@ -149,6 +149,13 @@ if st.session_state.translated_bytes is not None:
             key="translate_proofread_iterations",
         )
         if st.button(t("proofread.button"), type="secondary", key="translate_proofread_btn"):
+            progress = st.progress(0.0, text=t("proofread.spinner"))
+            
+            
+            def _on_chunk(done, total):
+                progress.progress(done / total, text=t("proofread.progress", done=done, total=total))
+            
+            
             with st.spinner(t("proofread.spinner")):
                 try:
                     proofread_docx, proofread_changes = proofread_bytes(
@@ -156,6 +163,7 @@ if st.session_state.translated_bytes is not None:
                         source_bytes=st.session_state.translate_source_bytes,
                         target_filename=st.session_state.translated_name,
                         max_iterations=int(proofread_iterations),
+                        progress_callback=_on_chunk,
                     )
                 except ValueError as e:
                     msg = str(e)
@@ -169,6 +177,7 @@ if st.session_state.translated_bytes is not None:
                     st.error(t("proofread.error", error=str(e)))
                     proofread_docx = None
                     proofread_changes = None
+            progress.empty()
             
             if proofread_docx is not None:
                 stem = Path(st.session_state.translated_name).stem
