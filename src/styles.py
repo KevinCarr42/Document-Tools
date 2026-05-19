@@ -29,9 +29,6 @@ _GLOBAL_CSS = """
     display: none !important;
   }
 
-  /* Tighten the gap between the fixed banner and the first page element. Default
-     padding-top is 8rem (room for the toolbar Streamlit's auto-hides). We've
-     moved the nav into the header, so we don't need that much space. */
   [data-testid="stMainBlockContainer"] {
     padding-top: 4rem !important;
   }
@@ -47,53 +44,7 @@ _GLOBAL_CSS = """
     color: #1D4ED8 !important;
     text-decoration: underline !important;
   }
-
-  /* Fixed header — always-visible app title. Background, border and text colors
-     are theme-dependent and injected by _build_theme_css() (driven by
-     st.context.theme, not prefers-color-scheme). */
-
-  /* ---- Top navigation hoisted into the banner ------------------------------
-     Streamlit renders st.navigation(position="top") just below the header by
-     default. Fix-positioning lifts it INTO the visible banner area. Sits to
-     the right of the title, left of the hamburger. */
-  [data-testid="stTopNavSection"] {
-    position: fixed !important;
-    top: 0;
-    right: 4rem;
-    height: 3.75rem;
-    z-index: 999990;
-    display: flex !important;
-    align-items: center;
-    gap: 1.75rem;
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    overflow: visible !important;
-    flex-wrap: nowrap !important;
-    width: auto !important;
-    max-width: none !important;
-  }
-  /* Force all tab containers + links visible. Streamlit's ResizeObserver still
-     measures the (now-empty) original parent and hides tabs into a popover at
-     >100% zoom; these rules veto that. */
-  [data-testid="stTopNavLinkContainer"] {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    display: flex !important;
-    visibility: visible !important;
-  }
-  [data-testid="stTopNavLink"] {
-    display: inline-flex !important;
-    visibility: visible !important;
-  }
-  /* Hide the overflow popover ("…" / expand-arrow) since we want all tabs visible. */
-  [data-testid="stTopNavPopover"],
-  [data-testid="stTopNavDropdownLink"] {
-    display: none !important;
-  }
-
+  
   /* Inactive tabs: lighter weight, dimmed.
      Streamlit wraps the label in <span><div><p>; the inner span has an
      emotion-generated class with its own font-size that beats ours unless
@@ -118,11 +69,7 @@ _GLOBAL_CSS = """
     font-size: 1.35rem !important;
     font-weight: 700 !important;
   }
-  [data-testid="stTopNavLink"][aria-current="page"] {
-    opacity: 1;
-  }
 
-  /* Nav link text color is theme-dependent — see _build_theme_css(). */
 </style>
 """
 
@@ -140,12 +87,9 @@ def _build_theme_css(palette):
   header[data-testid="stHeader"]::before {{
     color: {palette["header_fg"]};
   }}
-  /* All native header content — hamburger, "Running…" status text, spinner
-     icons (SVGs use fill:currentColor) — plus the hoisted nav links. */
-  header[data-testid="stHeader"] *,
-  [data-testid="stTopNavLink"],
-  [data-testid="stTopNavLink"] *,
-  [data-testid="stTopNavLink"] p {{
+  /* Native header content — hamburger, "Running…" status text, spinner icons
+     (SVGs use fill:currentColor). */
+  header[data-testid="stHeader"] * {{
     color: {palette["header_fg"]} !important;
   }}
 </style>
