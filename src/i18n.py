@@ -6,6 +6,7 @@ TRANSLATIONS = {
         "tab.shrink": "Shrink Document",
         "tab.proofread": "Proofread Translation",
         "tab.format": "Format Document",
+        "tab.settings": "Settings",
         
         "translate.caption": "Upload a .docx file. It will be shrunk to ≤10 MB if needed, then translated between English and French.",
         "translate.uploader": "Upload Document to Translate",
@@ -49,11 +50,16 @@ TRANSLATIONS = {
         "proofread.download_docx": "Download proofread .docx: {filename}",
         "proofread.download_changes": "Download change log: {filename}",
         
-        "format.coming_soon": "Coming soon...",
+        "general.coming_soon": "Coming soon...",
         
         "common.download": "Download Link: {filename}",
         "uploader.dropzone": "Drag and drop file here",
         "uploader.browse": "Browse files",
+        
+        "settings.heading": "Settings",
+        "settings.lang": "Language",
+        "settings.lexical_constraints": "Preferential Translations",
+        "settings.proofreader_prompts": "Proofreader Prompts",
         
         "lang.toggle_label": "Français",
     },
@@ -62,6 +68,7 @@ TRANSLATIONS = {
         "tab.shrink": "Réduire un document",
         "tab.proofread": "Réviser la traduction",
         "tab.format": "Mise en forme",
+        "tab.settings": "Paramètres",
         
         "translate.caption": "Téléversez un fichier .docx. Il sera réduit à ≤10 Mo au besoin, puis traduit entre l'anglais et le français.",
         "translate.uploader": "Téléverser un document à traduire",
@@ -105,11 +112,16 @@ TRANSLATIONS = {
         "proofread.download_docx": "Télécharger le .docx révisé : {filename}",
         "proofread.download_changes": "Télécharger le journal des corrections : {filename}",
         
-        "format.coming_soon": "Bientôt disponible...",
+        "general.coming_soon": "Bientôt disponible...",
         
         "common.download": "Lien de téléchargement : {filename}",
         "uploader.dropzone": "Glisser-déposer un fichier ici",
         "uploader.browse": "Parcourir les fichiers",
+        
+        "settings.heading": "Paramètres",
+        "settings.lang": "Langue",
+        "settings.lexical_constraints": "Traductions préférentielles",
+        "settings.proofreader_prompts": "Suggestions pour le correcteur",
         
         "lang.toggle_label": "English",
     },

@@ -11,17 +11,11 @@ _THEME_PALETTES = {
         "header_bg": "#FFFFFF",
         "header_border": "rgba(128, 128, 128, 0.15)",
         "header_fg": "#0F172A",
-        "toggle_border": "rgba(128, 128, 128, 0.3)",
-        "toggle_hover_bg": "rgba(0, 0, 0, 0.05)",
-        "toggle_hover_border": "rgba(128, 128, 128, 0.5)",
     },
     "dark": {
         "header_bg": "#0B1220",
         "header_border": "rgba(255, 255, 255, 0.08)",
         "header_fg": "#F1F5F9",
-        "toggle_border": "rgba(255, 255, 255, 0.2)",
-        "toggle_hover_bg": "rgba(255, 255, 255, 0.08)",
-        "toggle_hover_border": "rgba(255, 255, 255, 0.35)",
     },
 }
 
@@ -129,44 +123,6 @@ _GLOBAL_CSS = """
   }
 
   /* Nav link text color is theme-dependent — see _build_theme_css(). */
-
-  /* ---- Language toggle ----------------------------------------------------
-     The button is rendered as the first thing in streamlit_app.py, preceded
-     by a hidden anchor div. We hide the anchor's container, then fix-position
-     the *next* element-container (which holds the button) into the banner. */
-  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) {
-    display: none !important;
-  }
-  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] {
-    position: fixed !important;
-    top: 0;
-    right: 11rem;
-    height: 3.75rem;
-    z-index: 999991;
-    display: flex !important;
-    align-items: center;
-    width: auto !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  /* Style the actual button: subtle, blends into the banner. Text color and
-     border/hover colors are theme-dependent — see _build_theme_css(). */
-  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button {
-    background: transparent !important;
-    border: 1px solid rgba(128, 128, 128, 0.3) !important;
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-    padding: 0.35rem 0.85rem !important;
-    border-radius: 0.375rem !important;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
-  }
-
-  /* Push the nav tabs further left to clear the lang toggle. Fixed position —
-     no status-widget override, so nothing moves when scripts run. */
-  [data-testid="stTopNavSection"] {
-    right: 18rem !important;
-  }
 </style>
 """
 
@@ -191,15 +147,6 @@ def _build_theme_css(palette):
   [data-testid="stTopNavLink"] *,
   [data-testid="stTopNavLink"] p {{
     color: {palette["header_fg"]} !important;
-  }}
-  /* Language toggle button: theme-aware text, border and hover. */
-  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button {{
-    color: {palette["header_fg"]} !important;
-    border-color: {palette["toggle_border"]} !important;
-  }}
-  [data-testid="stElementContainer"]:has(> [data-testid="stMarkdown"] .lang-toggle-anchor) + [data-testid="stElementContainer"] button:hover {{
-    background-color: {palette["toggle_hover_bg"]} !important;
-    border-color: {palette["toggle_hover_border"]} !important;
   }}
 </style>
 """

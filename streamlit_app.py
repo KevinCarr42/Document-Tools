@@ -4,7 +4,7 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
-from src.i18n import t, toggle_lang, widget_text_map
+from src.i18n import t, widget_text_map
 from src.styles import inject_global_styles, inject_text_replacements
 
 load_dotenv(override=True)
@@ -24,16 +24,11 @@ inject_text_replacements(widget_text_map())
 if "lang" not in st.session_state:
     st.session_state.lang = "en"
 
-# Language toggle, right of the nav tabs.
-st.markdown('<div class="lang-toggle-anchor"></div>', unsafe_allow_html=True)
-if st.button(t("lang.toggle_label"), key="lang_toggle"):
-    toggle_lang()
-    st.rerun()
-
 pages = [
     st.Page("pages/translate.py", title=t("tab.translate"), default=True, url_path="translate"),
     st.Page("pages/proofread.py", title=t("tab.proofread"), url_path="proofread"),
     st.Page("pages/shrink.py", title=t("tab.shrink"), url_path="shrink"),
     st.Page("pages/format.py", title=t("tab.format"), url_path="format"),
+    st.Page("pages/settings.py", title=t("tab.settings"), url_path="settings"),
 ]
 st.navigation(pages, position="top").run()
