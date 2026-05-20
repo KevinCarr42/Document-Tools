@@ -25,6 +25,11 @@ PAGE_RESULT_KEYS = {
         "shrunk_original_size",
         "shrunk_target_bytes",
     ],
+    "format": [
+        "formatted_bytes",
+        "formatted_name",
+        "formatted_file_id",
+    ],
 }
 
 DOWNLOAD_KEYS = {
@@ -32,6 +37,7 @@ DOWNLOAD_KEYS = {
     "translate_proofread_result",
     "proofread_result",
     "shrunk_bytes",
+    "formatted_bytes",
 }
 
 # Per-page file_uploader widget keys. On tab change these are released from
@@ -42,6 +48,7 @@ PAGE_UPLOADER_KEYS = {
     "translate": ["translate_uploader"],
     "proofread": ["proofread_target_uploader", "proofread_source_uploader"],
     "shrink": ["shrink_uploader"],
+    "format": ["format_uploader"],
 }
 
 
@@ -77,7 +84,7 @@ def clear_stale_results(active_url_path, previous_url_path):
     st.session_state["_active_page"] = active_url_path
     if previous_url_path is None or previous_url_path == active_url_path:
         return
-
+    
     for path, keys in PAGE_RESULT_KEYS.items():
         if path != active_url_path:
             _pop_keys(keys)

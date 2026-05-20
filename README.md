@@ -6,7 +6,7 @@ A bilingual (English / French) Streamlit app that bundles a few `.docx` utilitie
 
 - **Translate** — upload a `.docx`, pick **English → French** or **French → English**, download the translated file. Files over 10 MB are auto-shrunk before translation.
 - **Shrink** — upload a `.docx` and re-encode embedded images to a target size (default 10 MB).
-- **Format** — placeholder page for an upcoming formatting tool.
+- **Format** — upload a `.docx`, optionally shrink its images, then clean up formatting: manual font colours are reset to automatic and fragmented (disjointed) text runs are merged.
 - Full English / French UI via a toggle in the top nav.
 - Library functions in `src/helpers.py` and `src/doc_shrinker.py` are also usable from notebooks / CLI scripts.
 
@@ -47,7 +47,7 @@ OLLAMA_API_KEY=<any-string>
 uv run streamlit run streamlit_app.py
 ```
 
-Open <http://localhost:8501> in a browser. The app has three tabs across the top — **Translate**, **Shrink**, **Format** — plus a language toggle on the right.
+Open <http://localhost:8501> in a browser. Tabs across the top — **Translate**, **Proofread**, **Shrink**, **Format**, **Settings** — switch between tools, with a language toggle on the right.
 
 ## Run from Python / a notebook
 
@@ -72,6 +72,14 @@ compress_docx_images("big.docx", target_bytes=10 * 1024 * 1024)
 # writes big_compressed.docx
 ```
 
+To clean up formatting (reset manual colours, merge disjointed runs):
+
+```python
+from src.doc_formatter import format_document
+format_document("messy.docx")
+# writes messy_formatted.docx
+```
+
 ## Run in Docker
 
 ```bash
@@ -90,10 +98,11 @@ Document-Tools/
 │   ├── translate.py            # Translate tab
 │   ├── proofread.py            # Proofread tab
 │   ├── shrink.py               # Shrink tab
-│   ├── format.py               # Format tab (placeholder)
+│   ├── format.py               # Format tab
 │   └── settings.py             # Settings tab
 ├── src/
 │   ├── helpers.py              # Azure Translator + Azure OpenAI/Ollama chat helpers
+│   ├── doc_formatter.py        # Resets manual colours + merges disjointed text runs
 │   ├── doc_shrinker.py         # Image re-encoder (vendored from KevinCarr42/Doc-Shrinker)
 │   ├── proofreader.py          # LLM proofreading pass over a translated .docx
 │   ├── proofread_cli.py        # CLI entry point for the proofread subprocess
@@ -128,7 +137,6 @@ The `Dockerfile` is the portable contract. Host-specific bits to add when the ta
 
 ## Roadmap
 
-- Build out the **Format** tab (currently a placeholder).
 - LLM proofreading pass over the translated document.
 - Async batch translation client for files >10 MB after shrinking.
 - Custom Translator `category` support for domain-tuned models.

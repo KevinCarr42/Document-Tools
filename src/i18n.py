@@ -35,6 +35,14 @@ TRANSLATIONS = {
         "shrink.failed": "Shrinker failed: {error}",
         "shrink.maintain_quality": "Maintain image quality",
         
+        "format.caption": "Upload a .docx file. Manual font colours are reset to automatic and fragmented text runs are merged.",
+        "format.uploader": "Upload Document to Format",
+        "format.reduce_images": "Reduce size of images?",
+        "format.button": "Format",
+        "format.spinner": "Processing document…",
+        "format.complete": "Formatting complete.",
+        "format.failed": "Formatting failed: {error}",
+        
         "proofread.caption": "Upload a translated .docx and (optionally) the source document. An LLM proofreads the translation, looping until no further changes are suggested.",
         "proofread.uploader_target": "Translated document (required)",
         "proofread.uploader_source": "Source document (optional — improves translation accuracy)",
@@ -98,6 +106,14 @@ TRANSLATIONS = {
         "shrink.over_target": "Réduit : {before} → {after} — la taille finale du document dépasse encore la taille cible",
         "shrink.failed": "Échec de la réduction : {error}",
         "shrink.maintain_quality": "Conserver la qualité des images",
+        
+        "format.caption": "Téléversez un fichier .docx. Les couleurs de police manuelles sont rétablies à « automatique » et les séquences de texte fragmentées sont fusionnées.",
+        "format.uploader": "Téléverser un document à mettre en forme",
+        "format.reduce_images": "Réduire la taille des images ?",
+        "format.button": "Mettre en forme",
+        "format.spinner": "Traitement du document…",
+        "format.complete": "Mise en forme terminée.",
+        "format.failed": "Échec de la mise en forme : {error}",
         
         "proofread.caption": "Téléversez un fichier .docx traduit et, au besoin, le document source. Un agent LLM révise la traduction et boucle jusqu'à ce qu'aucune autre correction ne soit proposée.",
         "proofread.uploader_target": "Document traduit (obligatoire)",
