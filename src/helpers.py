@@ -36,7 +36,7 @@ def chat(msg, model, client_type='azure', display_output=False, codex=False, sys
     elif client_type == 'ollama':
         client = get_ollama_client()
     else:
-        raise NotImplemented("No.")
+        raise ValueError(f"Unknown client_type: {client_type!r}")
     
     if codex:
         kwargs = {"model": model, "input": msg}

@@ -5,6 +5,7 @@ import pytest
 from src import helpers
 from src.helpers import (
     SYNC_DOCUMENT_TRANSLATION_MAX_BYTES,
+    chat,
     translate_document,
     translate_document_bytes,
 )
@@ -89,3 +90,9 @@ class TestTranslateDocumentFile:
         
         _, data, _ = fake_translator.calls[0]["body"]["document"]
         assert data == b"the-source-bytes"
+
+
+class TestChat:
+    def test_unknown_client_type_raises_value_error(self):
+        with pytest.raises(ValueError):
+            chat("hello", model="some-model", client_type="bogus")
