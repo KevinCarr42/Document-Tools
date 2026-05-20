@@ -12,7 +12,8 @@ Image.MAX_IMAGE_PIXELS = None
 logger = logging.getLogger("doc_tools.shrinker")
 
 
-def compress_docx_images(file_path, quality=80, max_width=1000, target_bytes=None, min_compress_width=800, min_byte_size=50_000, maintain_image_quality=True, extreme_only=False):
+def compress_docx_images(file_path, quality=95, max_width=1800, target_bytes=None, min_compress_width=800,
+                         min_byte_size=50_000, maintain_image_quality=True, extreme_only=False):
     p = Path(file_path)
     output_path = p.with_stem(f"{p.stem}_compressed")
     
@@ -29,15 +30,15 @@ def compress_docx_images(file_path, quality=80, max_width=1000, target_bytes=Non
         (45, 700, True),
         (35, 600, True),
         (25, 500, True),
-        (10, 100, True),
+        (10, 200, True),
     ]
     if extreme_only:
         attempts = [attempts[-1]]
         min_compress_width = 0
         min_byte_size = 0
     elif maintain_image_quality:
-        MIN_QUALITY = 45
-        attempts = [a for a in attempts if a[0] > MIN_QUALITY]
+        MIN_QUALITY = 65
+        attempts = [a for a in attempts if a[0] >= MIN_QUALITY]
     else:
         min_compress_width = 0
         min_byte_size = 0
