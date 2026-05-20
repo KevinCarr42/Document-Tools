@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 from src.i18n import t, widget_text_map
 from src.styles import inject_global_styles, inject_text_replacements
+from src.tab_guard import clear_stale_results, has_finished_downloads, inject_nav_guard
 
 load_dotenv(override=True)
 _dev_mode = os.environ.get("DEV_MODE", "").strip().lower() in ("1", "true", "yes", "on")
@@ -31,4 +32,9 @@ pages = [
     st.Page("pages/format.py", title=t("tab.format"), url_path="format"),
     st.Page("pages/settings.py", title=t("tab.settings"), url_path="settings"),
 ]
-st.navigation(pages, position="top").run()
+active = st.navigation(pages, position="top")
+current_path = active.url_path or "translate"
+previous_path = st.session_state.get("_active_page")
+clear_stale_results(current_path, previous_path)
+inject_nav_guard(has_finished_downloads(), t("nav.confirm_lose_progress"))
+active.run()

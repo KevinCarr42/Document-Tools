@@ -89,6 +89,7 @@ Document-Tools/
 ├── pages/
 │   ├── translate.py        # Translate tab
 │   ├── proofread.py        # Proofread tab
+│   ├── settings.py         # Settings tab
 │   ├── shrink.py           # Shrink tab
 │   └── format.py           # Format tab (placeholder)
 ├── src/

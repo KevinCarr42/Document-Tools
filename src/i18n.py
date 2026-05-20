@@ -62,6 +62,8 @@ TRANSLATIONS = {
         "settings.proofreader_prompts": "Proofreader Prompts",
         
         "lang.toggle_label": "Français",
+        
+        "nav.confirm_lose_progress": "Are you sure you want to change tabs? All progress will be lost.",
     },
     "fr": {
         "tab.translate": "Traduire un document",
@@ -124,6 +126,8 @@ TRANSLATIONS = {
         "settings.proofreader_prompts": "Suggestions pour le correcteur",
         
         "lang.toggle_label": "English",
+        
+        "nav.confirm_lose_progress": "Êtes-vous sûr de vouloir changer d'onglet ? Toute progression sera perdue.",
     },
 }
 

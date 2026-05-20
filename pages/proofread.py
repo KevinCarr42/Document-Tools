@@ -1,20 +1,18 @@
-import hashlib
 from pathlib import Path
 
 import streamlit as st
 
 from src.i18n import t
-from src.proofreader import DEFAULT_MAX_ITERATIONS, proofread_bytes
+from src.proofreader import DEFAULT_MAX_ITERATIONS
+from src.subprocess_helpers import run_proofread
 from src.utils import mb
 
 
-def _dedupe_key(target_bytes, source_bytes):
-    sha = hashlib.sha1()
-    sha.update(target_bytes)
-    if source_bytes is not None:
-        sha.update(b"||")
-        sha.update(source_bytes)
-    return sha.hexdigest()[:16]
+def _dedupe_key(target, source):
+    parts = [target.file_id]
+    if source is not None:
+        parts.append(source.file_id)
+    return "|".join(parts)
 
 
 st.caption(t("proofread.caption"))
@@ -42,18 +40,16 @@ if "proofread_result" not in st.session_state:
     st.session_state.proofread_result = None
 
 if target is not None:
-    target_bytes = target.getvalue()
-    source_bytes = source.getvalue() if source is not None else None
-    current_key = _dedupe_key(target_bytes, source_bytes)
+    current_key = _dedupe_key(target, source)
     
     result = st.session_state.proofread_result
     if result is not None and result.get("dedupe_key") != current_key:
         st.session_state.proofread_result = None
         result = None
     
-    st.write(f"**{target.name}** — {mb(len(target_bytes))}")
+    st.write(f"**{target.name}** — {mb(target.size)}")
     if source is not None:
-        st.write(f"**{source.name}** — {mb(len(source_bytes))}")
+        st.write(f"**{source.name}** — {mb(source.size)}")
     
     if result is None and st.button(t("proofread.button"), type="primary"):
         progress = st.progress(0.0, text=t("proofread.spinner"))
@@ -65,9 +61,9 @@ if target is not None:
         
         with st.spinner(t("proofread.spinner")):
             try:
-                docx_bytes, changes_text = proofread_bytes(
-                    target_bytes=target_bytes,
-                    source_bytes=source_bytes,
+                docx_bytes, changes_text = run_proofread(
+                    target_source=target,
+                    source_source=source,
                     target_filename=target.name,
                     max_iterations=int(max_iterations),
                     progress_callback=_on_chunk,
@@ -95,6 +91,8 @@ if target is not None:
                 "changes_name": f"{stem}_changes.txt",
                 "dedupe_key": current_key,
             }
+            st.session_state.pop("proofread_target_uploader", None)
+            st.session_state.pop("proofread_source_uploader", None)
             st.rerun()
 
 if st.session_state.proofread_result is not None:

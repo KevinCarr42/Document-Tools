@@ -1,32 +1,18 @@
-import tempfile
 from pathlib import Path
 
 import streamlit as st
 from azure.core.exceptions import HttpResponseError
 
-from src.doc_shrinker import compress_docx_images
 from src.helpers import (
     SYNC_DOCUMENT_TRANSLATION_MAX_BYTES,
     translate_document_bytes,
 )
 from src.i18n import t
-from src.proofreader import DEFAULT_MAX_ITERATIONS, proofread_bytes
+from src.proofreader import DEFAULT_MAX_ITERATIONS
+from src.subprocess_helpers import run_proofread, run_shrink
 from src.utils import mb
 
 MAX_BYTES = SYNC_DOCUMENT_TRANSLATION_MAX_BYTES
-
-
-def shrink_to_target(data, original_name, maintain_image_quality=True, extreme_only=False):
-    with tempfile.TemporaryDirectory() as tmp:
-        tmp_path = Path(tmp) / original_name
-        tmp_path.write_bytes(data)
-        out_path = compress_docx_images(
-            tmp_path,
-            target_bytes=MAX_BYTES,
-            maintain_image_quality=maintain_image_quality,
-            extreme_only=extreme_only,
-        )
-        return out_path.read_bytes()
 
 
 st.caption(t("translate.caption"))
@@ -43,6 +29,7 @@ uploaded = st.file_uploader(
     t("translate.uploader"),
     type=["docx"],
     label_visibility="collapsed",
+    key="translate_uploader",
 )
 
 if "translated_bytes" not in st.session_state:
@@ -60,37 +47,36 @@ if uploaded is not None and st.session_state.translated_file_id != uploaded.file
     st.session_state.translate_proofread_result = None
 
 if uploaded is not None:
-    raw = uploaded.getvalue()
-    original_size = len(raw)
+    original_size = uploaded.size
     st.write(f"**{uploaded.name}** — {mb(original_size)}")
-    
+
     max_reduction = st.checkbox(
         t("translate.max_reduction"),
         value=False,
         help=t("translate.max_reduction_help"),
         disabled=st.session_state.translated_bytes is not None,
     )
-    
+
     needs_shrink = original_size > MAX_BYTES
     if needs_shrink:
         st.info(t("translate.shrink_info"))
-    
+
     if st.session_state.translated_bytes is None and st.button(t("translate.button"), type="primary"):
-        ready_bytes = raw
+        ready_bytes = None
         ready = True
-        
+
         if max_reduction or needs_shrink:
             with st.spinner(t("translate.shrink_spinner")):
                 try:
                     if max_reduction:
-                        shrunk = shrink_to_target(raw, uploaded.name, extreme_only=True)
+                        shrunk = run_shrink(uploaded, uploaded.name, target_bytes=MAX_BYTES, extreme_only=True)
                     else:
-                        shrunk = shrink_to_target(raw, uploaded.name, maintain_image_quality=False)
+                        shrunk = run_shrink(uploaded, uploaded.name, target_bytes=MAX_BYTES, maintain_image_quality=False)
                 except Exception as e:
                     st.error(t("translate.shrinker_failed", error=str(e)))
                     ready = False
                     shrunk = None
-            
+
             if shrunk is not None:
                 new_size = len(shrunk)
                 st.info(t("translate.shrink_done", before=mb(original_size), after=mb(new_size)))
@@ -99,6 +85,8 @@ if uploaded is not None:
                     ready = False
                 else:
                     ready_bytes = shrunk
+        else:
+            ready_bytes = uploaded.getvalue()
         
         if ready:
             with st.spinner(t("translate.spinner")):
@@ -125,6 +113,7 @@ if uploaded is not None:
                 st.session_state.translated_file_id = uploaded.file_id
                 st.session_state.translate_source_bytes = ready_bytes
                 st.session_state.translate_proofread_result = None
+                st.session_state.pop("translate_uploader", None)
                 st.rerun()
 
 if st.session_state.translated_bytes is not None:
@@ -158,9 +147,9 @@ if st.session_state.translated_bytes is not None:
             
             with st.spinner(t("proofread.spinner")):
                 try:
-                    proofread_docx, proofread_changes = proofread_bytes(
-                        target_bytes=st.session_state.translated_bytes,
-                        source_bytes=st.session_state.translate_source_bytes,
+                    proofread_docx, proofread_changes = run_proofread(
+                        target_source=st.session_state.translated_bytes,
+                        source_source=st.session_state.translate_source_bytes,
                         target_filename=st.session_state.translated_name,
                         max_iterations=int(proofread_iterations),
                         progress_callback=_on_chunk,

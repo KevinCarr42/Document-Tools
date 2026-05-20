@@ -1,10 +1,9 @@
-import tempfile
 from pathlib import Path
 
 import streamlit as st
 
 from src.i18n import t
-from src.doc_shrinker import compress_docx_images
+from src.subprocess_helpers import run_shrink
 from src.utils import mb
 
 st.caption(t("shrink.caption"))
@@ -21,6 +20,7 @@ uploaded = st.file_uploader(
     t("shrink.uploader"),
     type=["docx"],
     label_visibility="collapsed",
+    key="shrink_uploader",
 )
 
 if "shrunk_bytes" not in st.session_state:
@@ -38,8 +38,7 @@ if uploaded is not None and st.session_state.shrunk_file_id != uploaded.file_id:
     st.session_state.shrunk_target_bytes = None
 
 if uploaded is not None:
-    raw = uploaded.getvalue()
-    original_size = len(raw)
+    original_size = uploaded.size
     st.write(f"**{uploaded.name}** — {mb(original_size)}")
     
     if st.session_state.shrunk_bytes is None:
@@ -56,11 +55,12 @@ if uploaded is not None:
         target_bytes = int(target_mb) * 1024 * 1024
         with st.spinner(t("shrink.spinner")):
             try:
-                with tempfile.TemporaryDirectory() as tmp:
-                    tmp_path = Path(tmp) / uploaded.name
-                    tmp_path.write_bytes(raw)
-                    out_path = compress_docx_images(tmp_path, target_bytes=target_bytes, maintain_image_quality=maintain_quality)
-                    shrunk = out_path.read_bytes()
+                shrunk = run_shrink(
+                    uploaded,
+                    uploaded.name,
+                    target_bytes=target_bytes,
+                    maintain_image_quality=maintain_quality,
+                )
             except Exception as e:
                 st.error(t("shrink.failed", error=str(e)))
                 shrunk = None
@@ -72,6 +72,7 @@ if uploaded is not None:
             st.session_state.shrunk_file_id = uploaded.file_id
             st.session_state.shrunk_original_size = original_size
             st.session_state.shrunk_target_bytes = target_bytes
+            st.session_state.pop("shrink_uploader", None)
             st.rerun()
 
 if st.session_state.shrunk_bytes is not None:
