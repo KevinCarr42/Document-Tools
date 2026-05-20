@@ -85,20 +85,28 @@ The image does **not** bake in `.env` — credentials must be injected at runtim
 
 ```
 Document-Tools/
-├── streamlit_app.py        # Web UI entry point + page router
+├── streamlit_app.py            # Web UI entry point + page router
 ├── pages/
-│   ├── translate.py        # Translate tab
-│   ├── proofread.py        # Proofread tab
-│   ├── settings.py         # Settings tab
-│   ├── shrink.py           # Shrink tab
-│   └── format.py           # Format tab (placeholder)
+│   ├── translate.py            # Translate tab
+│   ├── proofread.py            # Proofread tab
+│   ├── shrink.py               # Shrink tab
+│   ├── format.py               # Format tab (placeholder)
+│   └── settings.py             # Settings tab
 ├── src/
-│   ├── helpers.py          # Azure Translator + Azure OpenAI/Ollama chat helpers
-│   └── doc_shrinker.py     # Vendored from KevinCarr42/Doc-Shrinker
-├── i18n.py                 # EN/FR string table + widget-text overrides
-├── styles.py               # Global CSS + JS text replacements for Streamlit chrome
-├── utils.py                # Small formatting helpers
-├── .streamlit/config.toml  # Streamlit theme + server config
+│   ├── helpers.py              # Azure Translator + Azure OpenAI/Ollama chat helpers
+│   ├── doc_shrinker.py         # Image re-encoder (vendored from KevinCarr42/Doc-Shrinker)
+│   ├── proofreader.py          # LLM proofreading pass over a translated .docx
+│   ├── proofread_cli.py        # CLI entry point for the proofread subprocess
+│   ├── shrink_cli.py           # CLI entry point for the shrink subprocess
+│   ├── subprocess_helpers.py   # Runs shrink/proofread in child processes to reclaim memory
+│   ├── tab_guard.py            # Clears stale page state + nav-confirmation guard
+│   ├── i18n.py                 # EN/FR string table + widget-text overrides
+│   ├── styles.py               # Global CSS + JS text replacements for Streamlit chrome
+│   └── utils.py                # Small formatting helpers
+├── tests/
+│   ├── conftest.py             # Shared pytest fixtures (docx/image builders, fakes)
+│   └── test_*.py               # Unit tests, one file per src/ module
+├── .streamlit/config.toml      # Streamlit theme + server config
 ├── Dockerfile
 ├── pyproject.toml
 └── .env.template
