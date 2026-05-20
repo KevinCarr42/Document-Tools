@@ -6,7 +6,7 @@ A bilingual (English / French) Streamlit app that bundles a few `.docx` utilitie
 
 - **Translate** — upload a `.docx`, pick **English → French** or **French → English**, download the translated file. Files over 10 MB are auto-shrunk before translation.
 - **Shrink** — upload a `.docx` and re-encode embedded images to a target size (default 10 MB).
-- **Format** — upload a `.docx`, optionally shrink its images, then clean up formatting: manual font colours are reset to automatic and fragmented (disjointed) text runs are merged.
+- **Format** — upload a `.docx`, optionally shrink its images, then clean up formatting: manual font colours are reset to automatic, fragmented (disjointed) text runs are merged, smart-tag wrappers are unwrapped, and stray proofing marks and orphaned field runs are removed. A downloadable summary reports what changed.
 - Full English / French UI via a toggle in the top nav.
 - Library functions in `src/helpers.py` and `src/doc_shrinker.py` are also usable from notebooks / CLI scripts.
 

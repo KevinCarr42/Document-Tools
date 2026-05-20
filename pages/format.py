@@ -7,6 +7,39 @@ from src.i18n import t
 from src.subprocess_helpers import run_shrink
 from src.utils import mb
 
+_REPORT_LINES = [
+    ("smart_tags", "format.report_smart_tags"),
+    ("proof_errors", "format.report_proof_errors"),
+    ("orphan_fields", "format.report_orphan_fields"),
+    ("manual_colours", "format.report_manual_colours"),
+    ("blank_run_formatting", "format.report_blank_runs"),
+    ("merged_runs", "format.report_merged_runs"),
+]
+
+
+def _render_report(summary):
+    locations = summary["locations"]
+    lines = [
+        t("format.report_title"),
+        "",
+        t("format.report_paragraphs", count=summary["paragraphs_scanned"]),
+        t(
+            "format.report_locations",
+            body=locations["body"],
+            tables=locations["tables"],
+            hf=locations["headers_footers"],
+        ),
+        "",
+    ]
+    fixes = summary["fixes"]
+    if any(fixes.values()):
+        for key, message in _REPORT_LINES:
+            lines.append(t(message, count=fixes[key]))
+    else:
+        lines.append(t("format.report_no_changes"))
+    return "\n".join(lines) + "\n"
+
+
 st.caption(t("format.caption"))
 
 reduce_images = st.toggle(t("format.reduce_images"), value=False)
@@ -31,22 +64,25 @@ if "formatted_bytes" not in st.session_state:
     st.session_state.formatted_bytes = None
     st.session_state.formatted_name = None
     st.session_state.formatted_file_id = None
+    st.session_state.formatted_summary = None
 
 if uploaded is not None and st.session_state.formatted_file_id != uploaded.file_id:
     st.session_state.formatted_bytes = None
     st.session_state.formatted_name = None
     st.session_state.formatted_file_id = None
+    st.session_state.formatted_summary = None
 
 if uploaded is not None:
     st.write(f"**{uploaded.name}** — {mb(uploaded.size)}")
     
     if st.session_state.formatted_bytes is None and st.button(t("format.button"), type="primary"):
         cleaned = None
+        summary = None
         target_bytes = int(target_mb) * 1024 * 1024 if reduce_images else None
         with st.spinner(t("format.spinner")):
             try:
                 document_bytes = run_shrink(uploaded, uploaded.name, target_bytes=target_bytes) if reduce_images else uploaded.getvalue()
-                cleaned = format_document_bytes(document_bytes)
+                cleaned, summary = format_document_bytes(document_bytes)
             except Exception as e:
                 st.error(t("format.failed", error=str(e)))
         
@@ -55,6 +91,7 @@ if uploaded is not None:
             st.session_state.formatted_bytes = cleaned
             st.session_state.formatted_name = f"{stem}_formatted.docx"
             st.session_state.formatted_file_id = uploaded.file_id
+            st.session_state.formatted_summary = summary
             st.session_state.pop("format_uploader", None)
             st.rerun()
 
@@ -67,3 +104,12 @@ if st.session_state.formatted_bytes is not None:
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         type="tertiary",
     )
+    if st.session_state.formatted_summary is not None:
+        report_name = f"{Path(st.session_state.formatted_name).stem}_report.txt"
+        st.download_button(
+            label=t("format.download_summary", filename=report_name),
+            data=_render_report(st.session_state.formatted_summary).encode("utf-8"),
+            file_name=report_name,
+            mime="text/plain",
+            type="tertiary",
+        )

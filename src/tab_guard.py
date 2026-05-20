@@ -29,6 +29,7 @@ PAGE_RESULT_KEYS = {
         "formatted_bytes",
         "formatted_name",
         "formatted_file_id",
+        "formatted_summary",
     ],
 }
 
