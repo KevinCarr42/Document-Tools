@@ -1,4 +1,6 @@
 import argparse
+import logging
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -6,7 +8,20 @@ from pathlib import Path
 from src.doc_shrinker import compress_docx_images
 
 
+def _configure_logging():
+    if os.environ.get("DEV_MODE", "").strip().lower() not in ("1", "true", "yes", "on"):
+        return
+    app_logger = logging.getLogger("doc_tools")
+    app_logger.setLevel(logging.INFO)
+    app_logger.propagate = False
+    if not app_logger.handlers:
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter("%(message)s"))
+        app_logger.addHandler(handler)
+
+
 def main():
+    _configure_logging()
     parser = argparse.ArgumentParser()
     parser.add_argument("input")
     parser.add_argument("--output", required=True)

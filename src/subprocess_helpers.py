@@ -73,10 +73,14 @@ def run_shrink(source, filename, target_bytes=None, maintain_image_quality=True,
         if extreme_only:
             cmd.append("--extreme-only")
 
-        result = subprocess.run(cmd, capture_output=True)
+        # Diagnostic marker printed by THIS process. If this line is missing
+        # from the console, the Streamlit server is running stale code.
+        print("[run_shrink] launching shrink subprocess", file=sys.stderr, flush=True)
+        # No stdout/stderr redirection: the child inherits this process's
+        # console, so its prints, shrinker logs, and tracebacks appear live.
+        result = subprocess.run(cmd)
         if result.returncode != 0:
-            err = result.stderr.decode("utf-8", errors="replace").strip() or "shrink subprocess failed"
-            raise RuntimeError(err)
+            raise RuntimeError("shrink subprocess failed (see console output)")
 
         out = out_path.read_bytes()
         gc.collect()

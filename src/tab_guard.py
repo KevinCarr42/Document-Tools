@@ -72,30 +72,17 @@ def _release_uploader_keys(keys):
 
 
 def clear_stale_results(active_url_path, previous_url_path):
-    # Tab changed: drop results belonging to other pages, keep the active one.
-    # Same tab click (previous == active and we already had it stored): treat
-    # as a reset and drop the active page's own results too.
-    if previous_url_path is None:
-        st.session_state["_active_page"] = active_url_path
+    # On tab change, drop result data and uploader widgets belonging to the
+    # pages we just left so their (potentially multi-GB) buffers are reclaimed.
+    st.session_state["_active_page"] = active_url_path
+    if previous_url_path is None or previous_url_path == active_url_path:
         return
 
-    if previous_url_path != active_url_path:
-        for path, keys in PAGE_RESULT_KEYS.items():
-            if path != active_url_path:
-                _pop_keys(keys)
-                _release_uploader_keys(PAGE_UPLOADER_KEYS.get(path, []))
-        st.session_state["_active_page"] = active_url_path
-        gc.collect()
-        return
-
-    # Same-tab click: only reset if a download link was present. We can't tell
-    # "the user clicked the active tab" apart from "this is just another
-    # rerun" without an extra signal, so we use the existence of finished
-    # downloads on this page as the trigger — that matches the user's intent
-    # ("links to finished file downloads that will be removed").
-    # NOTE: A rerun triggered by any in-page button would also satisfy this,
-    # so we skip the same-tab reset to avoid clobbering results on every
-    # rerun. The download bytes are cleared by the next real tab switch.
+    for path, keys in PAGE_RESULT_KEYS.items():
+        if path != active_url_path:
+            _pop_keys(keys)
+            _release_uploader_keys(PAGE_UPLOADER_KEYS.get(path, []))
+    gc.collect()
 
 
 def inject_nav_guard(has_pending, confirm_message):

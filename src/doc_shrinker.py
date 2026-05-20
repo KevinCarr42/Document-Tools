@@ -23,8 +23,8 @@ def compress_docx_images(file_path, quality=95, max_width=1800, target_bytes=Non
     
     attempts = [
         (quality, max_width, False),
-        (85, 1200, False),
-        (75, 1000, True),
+        (90, 1400, False),
+        (80, 1000, False),
         (65, 900, True),
         (55, 800, True),
         (45, 700, True),
