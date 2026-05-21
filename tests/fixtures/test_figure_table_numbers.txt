@@ -1,0 +1,3 @@
+Figure 1. Description of the first figure. The figure number should include a period.
+
+Table 1. Description of the first table. The table number should include a period.

@@ -6,7 +6,7 @@ A bilingual (English / French) Streamlit app that bundles a few `.docx` utilitie
 
 - **Translate** — upload a `.docx`, pick **English → French** or **French → English**, download the translated file. Files over 10 MB are auto-shrunk before translation.
 - **Shrink** — upload a `.docx` and re-encode embedded images to a target size (default 10 MB).
-- **Format** — upload a `.docx`, optionally shrink its images, then clean up formatting: manual font colours are reset to automatic, fragmented (disjointed) text runs are merged, smart-tag wrappers are unwrapped, and stray proofing marks and orphaned field runs are removed. A downloadable summary reports what changed.
+- **Format** — upload a `.docx`, optionally shrink its images, then clean up formatting: manual font colours are reset to automatic, fragmented (disjointed) text runs are merged, smart-tag wrappers are unwrapped, and stray proofing marks and orphaned field runs are removed. Optionally localize numbers and punctuation for English or French — thousands/decimal separators (`1,234.5` ↔ `1 234,5`), spacing around `%`, and spacing before `: ; ? !`. A downloadable summary reports what changed.
 - Full English / French UI via a toggle in the top nav.
 - Library functions in `src/helpers.py` and `src/doc_shrinker.py` are also usable from notebooks / CLI scripts.
 
@@ -103,6 +103,7 @@ Document-Tools/
 ├── src/
 │   ├── helpers.py              # Azure Translator + Azure OpenAI/Ollama chat helpers
 │   ├── doc_formatter.py        # Resets manual colours + merges disjointed text runs
+│   ├── doc_localizer.py        # Localizes numbers/punctuation between EN and FR
 │   ├── doc_shrinker.py         # Image re-encoder (vendored from KevinCarr42/Doc-Shrinker)
 │   ├── proofreader.py          # LLM proofreading pass over a translated .docx
 │   ├── proofread_cli.py        # CLI entry point for the proofread subprocess

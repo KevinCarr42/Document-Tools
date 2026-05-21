@@ -7,7 +7,6 @@ TRANSLATIONS = {
         "tab.proofread": "Proofread Translation",
         "tab.format": "Format Document",
         "tab.settings": "Settings",
-        
         "translate.caption": "Upload a .docx file. It will be shrunk to ≤10 MB if needed, then translated between English and French.",
         "translate.uploader": "Upload Document to Translate",
         "translate.direction_en": "English → French",
@@ -24,7 +23,6 @@ TRANSLATIONS = {
         "translate.max_reduction": "Maximum image size reduction",
         "translate.max_reduction_help": "If you plan to replace images after translation, reducing image quality can make any unreplaced images more noticeable.",
         "translate.proofread_prompt": "Would you like to proofread this translation against the source?",
-        
         "shrink.caption": "Upload a .docx file and shrink it by re-encoding embedded images to fit a target size.",
         "shrink.uploader": "Upload Document to Shrink",
         "shrink.target_label": "Target size (MB)",
@@ -34,7 +32,6 @@ TRANSLATIONS = {
         "shrink.over_target": "Shrunk: {before} → {after} — final document size still exceeds target size",
         "shrink.failed": "Shrinker failed: {error}",
         "shrink.maintain_quality": "Maintain image quality",
-        
         "format.caption": "Upload a .docx file. Manual font colours are reset to automatic and fragmented text runs are merged.",
         "format.uploader": "Upload Document to Format",
         "format.reduce_images": "Reduce size of images?",
@@ -53,7 +50,16 @@ TRANSLATIONS = {
         "format.report_blank_runs": "Blank-run formatting cleared: {count}",
         "format.report_merged_runs": "Disjointed runs merged: {count}",
         "format.report_no_changes": "No formatting changes were needed.",
-        
+        "format.localize_label": "Localize numbers and punctuation",
+        "format.localize_off": "Leave as-is",
+        "format.localize_en": "Format for English",
+        "format.localize_fr": "Format for French",
+        "format.report_localize_title": "Localization summary",
+        "format.report_localize_nodes": "Text segments scanned: {count}",
+        "format.report_localize_no_changes": "No localization changes were needed.",
+        "format.report_localize_numbers": "Numbers reformatted: {count}",
+        "format.report_localize_percent": "Percent signs respaced: {count}",
+        "format.report_localize_punctuation": "Punctuation spacing fixed: {count}",
         "proofread.caption": "Upload a translated .docx and (optionally) the source document. An LLM proofreads the translation, looping until no further changes are suggested.",
         "proofread.uploader_target": "Translated document (required)",
         "proofread.uploader_source": "Source document (optional — improves translation accuracy)",
@@ -68,20 +74,15 @@ TRANSLATIONS = {
         "proofread.skipped_warnings": "Some paragraphs were skipped (hyperlinks, fields, or images). See the changes file.",
         "proofread.download_docx": "Download proofread .docx: {filename}",
         "proofread.download_changes": "Download change log: {filename}",
-        
         "general.coming_soon": "Coming soon...",
-        
         "common.download": "Download Link: {filename}",
         "uploader.dropzone": "Drag and drop file here",
         "uploader.browse": "Browse files",
-        
         "settings.heading": "Settings",
         "settings.lang": "Language",
         "settings.lexical_constraints": "Preferential Translations",
         "settings.proofreader_prompts": "Proofreader Prompts",
-        
         "lang.toggle_label": "Français",
-        
         "nav.confirm_lose_progress": "Are you sure you want to change tabs? All progress will be lost.",
     },
     "fr": {
@@ -90,7 +91,6 @@ TRANSLATIONS = {
         "tab.proofread": "Réviser la traduction",
         "tab.format": "Mise en forme",
         "tab.settings": "Paramètres",
-        
         "translate.caption": "Téléversez un fichier .docx. Il sera réduit à ≤10 Mo au besoin, puis traduit entre l'anglais et le français.",
         "translate.uploader": "Téléverser un document à traduire",
         "translate.direction_en": "Anglais → Français",
@@ -107,7 +107,6 @@ TRANSLATIONS = {
         "translate.max_reduction": "Réduction maximale de la taille des images",
         "translate.max_reduction_help": "Si vous prévoyez remplacer les images après la traduction, réduire la qualité des images peut rendre les images non remplacées plus visibles.",
         "translate.proofread_prompt": "Souhaitez-vous réviser cette traduction par rapport au document source ?",
-        
         "shrink.caption": "Téléversez un fichier .docx pour le réduire en ré-encodant les images intégrées jusqu'à la taille cible.",
         "shrink.uploader": "Téléverser un document à réduire",
         "shrink.target_label": "Taille cible (Mo)",
@@ -117,7 +116,6 @@ TRANSLATIONS = {
         "shrink.over_target": "Réduit : {before} → {after} — la taille finale du document dépasse encore la taille cible",
         "shrink.failed": "Échec de la réduction : {error}",
         "shrink.maintain_quality": "Conserver la qualité des images",
-        
         "format.caption": "Téléversez un fichier .docx. Les couleurs de police manuelles sont rétablies à « automatique » et les séquences de texte fragmentées sont fusionnées.",
         "format.uploader": "Téléverser un document à mettre en forme",
         "format.reduce_images": "Réduire la taille des images ?",
@@ -136,7 +134,16 @@ TRANSLATIONS = {
         "format.report_blank_runs": "Mise en forme des séquences vides effacée : {count}",
         "format.report_merged_runs": "Séquences fragmentées fusionnées : {count}",
         "format.report_no_changes": "Aucune correction de mise en forme nécessaire.",
-        
+        "format.localize_label": "Adapter les nombres et la ponctuation",
+        "format.localize_off": "Ne pas modifier",
+        "format.localize_en": "Adapter pour l'anglais",
+        "format.localize_fr": "Adapter pour le français",
+        "format.report_localize_title": "Sommaire de l'adaptation",
+        "format.report_localize_nodes": "Segments de texte analysés : {count}",
+        "format.report_localize_no_changes": "Aucune adaptation nécessaire.",
+        "format.report_localize_numbers": "Nombres reformatés : {count}",
+        "format.report_localize_percent": "Espacement des symboles de pourcentage corrigé : {count}",
+        "format.report_localize_punctuation": "Espacement de la ponctuation corrigé : {count}",
         "proofread.caption": "Téléversez un fichier .docx traduit et, au besoin, le document source. Un agent LLM révise la traduction et boucle jusqu'à ce qu'aucune autre correction ne soit proposée.",
         "proofread.uploader_target": "Document traduit (obligatoire)",
         "proofread.uploader_source": "Document source (optionnel — améliore la fidélité de la traduction)",
@@ -151,20 +158,15 @@ TRANSLATIONS = {
         "proofread.skipped_warnings": "Certains paragraphes ont été ignorés (hyperliens, champs ou images). Voir le fichier des corrections.",
         "proofread.download_docx": "Télécharger le .docx révisé : {filename}",
         "proofread.download_changes": "Télécharger le journal des corrections : {filename}",
-        
         "general.coming_soon": "Bientôt disponible...",
-        
         "common.download": "Lien de téléchargement : {filename}",
         "uploader.dropzone": "Glisser-déposer un fichier ici",
         "uploader.browse": "Parcourir les fichiers",
-        
         "settings.heading": "Paramètres",
         "settings.lang": "Langue",
         "settings.lexical_constraints": "Traductions préférentielles",
         "settings.proofreader_prompts": "Suggestions pour le correcteur",
-        
         "lang.toggle_label": "English",
-        
         "nav.confirm_lose_progress": "Êtes-vous sûr de vouloir changer d'onglet ? Toute progression sera perdue.",
     },
 }
