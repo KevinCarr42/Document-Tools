@@ -30,6 +30,7 @@ PAGE_RESULT_KEYS = {
         "formatted_name",
         "formatted_file_id",
         "formatted_summary",
+        "formatted_spec_summary",
     ],
 }
 

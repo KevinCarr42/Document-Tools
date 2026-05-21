@@ -1,0 +1,2402 @@
+{
+  "_meta": {
+    "spec_name": "CSAS Publication Formatting Specification",
+    "spec_version": "1.0",
+    "created": "2026-05-21",
+    "description": "Microsoft Word style definitions for formatting Canadian Science Advisory Secretariat (CSAS) publications. A formatting tool reads this file to convert a plain Word document into CSAS format by creating/updating each named style with the properties below.",
+    "derived_from": "data/2026_Templates/ - 10 documents (5 publication types x English/French).",
+    "units": "All sizes in points (pt). 1 inch = 72 pt; 1 cm ~= 28.35 pt. Colours are 6-digit hex RRGGBB, or 'automatic' (theme/black).",
+    "formatting_options": {
+      "csas_publication": "Apply one of the templates under 'templates' below, chosen by publication type.",
+      "no_change": "Leave the source document's formatting untouched (no spec needed)."
+    },
+    "conventions": {
+      "based_on": "Word style this style inherits from.",
+      "used_in": "How many source documents applied this style.",
+      "source_variations": "Present when source documents disagreed; lists the values seen. The value given is the majority/normalised one.",
+      "run": "Character-level formatting (font, size, weight, colour).",
+      "paragraph": "Paragraph-level formatting (spacing, indents, alignment).",
+      "also_named": "Other styleIds the same style appears under in the source documents (the JSON key is the canonical English styleId). Mostly French-language styleIds; a conversion tool should treat any of these as the same style.",
+      "linked_character_style": "Word auto-creates this linked character style; it mirrors the paragraph style's run formatting."
+    }
+  },
+  "templates": {
+    "advisory_response_report": {
+      "display_name": "CSAS Advisory / Response Report",
+      "applies_to": [
+        "Science Advisory Report (SAR-AS)",
+        "Science Response Report (SRR-RS)",
+        "FSAR-PAS",
+        "FSRR-PRS"
+      ],
+      "source_documents": [
+        "FSAR-PAS2026-eng.docx",
+        "FSAR-PAS2026-fra.docx",
+        "FSRR-PRS2026-eng.docx",
+        "FSRR-PRS2026-fra.docx",
+        "SAR-AS2026-eng.docx",
+        "SAR-AS2026-fra.docx",
+        "SRR-RS2026-eng.docx",
+        "SRR-RS2026-fra.docx"
+      ],
+      "page_setup": {
+        "page_size": "Letter (8.5 x 11 in)",
+        "page_width_pt": 612,
+        "page_height_pt": 792,
+        "margins_pt": {
+          "top": 72,
+          "bottom": 72,
+          "left": 72,
+          "right": 72
+        },
+        "header_distance_pt": 43.1,
+        "footer_distance_pt": 30.1
+      },
+      "document_defaults": {
+        "font": "Arial",
+        "size_pt": 11,
+        "line_spacing": "single",
+        "note": "The effective default comes from the Normal style. Word's raw docDefaults list Times New Roman, but Normal overrides it to Arial 11 pt."
+      },
+      "paragraph_styles": {
+        "Normal": {
+          "style_name": "Normal",
+          "style_type": "paragraph",
+          "based_on": null,
+          "purpose": "Base paragraph style. All other paragraph styles inherit from it; carries the document default font.",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 0.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "BodyText": {
+          "style_name": "Body Text",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Default body paragraph for running text.",
+          "used_in": "8/8 source documents",
+          "linked_character_style": "BodyTextChar",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "BodyTextBold": {
+          "style_name": "Body Text + Bold",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Body paragraph, bold.",
+          "used_in": "3/8 source documents",
+          "also_named": [
+            "BodyTextgras"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "BodyTextItalic": {
+          "style_name": "Body Text + Italic",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Body paragraph, italic.",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 11.0
+          }
+        },
+        "BodyTextCentered": {
+          "style_name": "Body Text + Centered",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Body paragraph, centred. Some French templates name this 'BodyTextCentr'.",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Blockquote": {
+          "style_name": "Blockquote",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Indented block quotation.",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 36.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Heading1": {
+          "style_name": "heading 1",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Top-level section heading.",
+          "used_in": "8/8 source documents",
+          "linked_character_style": "Heading1Char",
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 0,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 16.0
+          },
+          "source_variations": {
+            "run.color": [
+              "4F81BD",
+              "automatic"
+            ]
+          }
+        },
+        "Heading2": {
+          "style_name": "heading 2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Second-level section heading.",
+          "used_in": "8/8 source documents",
+          "linked_character_style": "Heading2Char",
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 1,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 14.0
+          },
+          "source_variations": {
+            "run.all_caps": [
+              false,
+              true
+            ],
+            "run.color": [
+              "000000",
+              "4F81BD",
+              "automatic"
+            ]
+          }
+        },
+        "Heading3": {
+          "style_name": "heading 3",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Third-level section heading.",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": true,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 2,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          },
+          "source_variations": {
+            "paragraph.contextual_spacing": [
+              false,
+              true
+            ]
+          }
+        },
+        "Heading4": {
+          "style_name": "heading 4",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Fourth-level section heading.",
+          "used_in": "8/8 source documents",
+          "linked_character_style": "Heading4Char",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 18.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 3,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              18.0,
+              28.35
+            ]
+          }
+        },
+        "Heading5": {
+          "style_name": "heading 5",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Fifth-level section heading.",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 28.1,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 4,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              28.1,
+              28.35
+            ]
+          }
+        },
+        "Caption-Figure": {
+          "style_name": "Caption - Figure",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Figure caption (below the figure).",
+          "used_in": "8/8 source documents",
+          "also_named": [
+            "LgendeFigure"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 12.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 10.0
+          },
+          "source_variations": {
+            "paragraph.keep_lines_together": [
+              false,
+              true
+            ]
+          }
+        },
+        "Caption-Table": {
+          "style_name": "Caption - Table",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Table caption (above the table).",
+          "used_in": "8/8 source documents",
+          "also_named": [
+            "LgendeTableau"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 10.0
+          },
+          "source_variations": {
+            "paragraph.keep_lines_together": [
+              false,
+              true
+            ]
+          }
+        },
+        "ListBullet": {
+          "style_name": "List Bullet",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "First-level bulleted list.",
+          "used_in": "8/8 source documents",
+          "list": {
+            "type": "bullet",
+            "marker": "• (Symbol font)",
+            "level": 1
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "ListBullet2": {
+          "style_name": "List Bullet 2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Second-level (nested) bulleted list.",
+          "used_in": "8/8 source documents",
+          "list": {
+            "type": "bullet",
+            "marker": "o (Courier New)",
+            "level": 2
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": true,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 36.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              0.0,
+              36.0
+            ]
+          }
+        },
+        "ListNumber": {
+          "style_name": "List Number",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "First-level numbered list.",
+          "used_in": "8/8 source documents",
+          "list": {
+            "type": "numbered",
+            "marker": "1.  (decimal)",
+            "level": 1
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              0.0,
+              18.0
+            ]
+          }
+        },
+        "ListNumber2": {
+          "style_name": "List Number 2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Second-level (nested) numbered list.",
+          "used_in": "8/8 source documents",
+          "list": {
+            "type": "numbered",
+            "marker": "a.  (lower letter)",
+            "level": 2
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 36.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              0.0,
+              36.0
+            ]
+          }
+        },
+        "citation": {
+          "style_name": "citation",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Bibliographic reference entry (hanging indent).",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 18.0,
+            "indent_left_pt": 18.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "citation-translated": {
+          "style_name": "citation - translated",
+          "style_type": "paragraph",
+          "based_on": "citation",
+          "purpose": "Translated bibliographic reference entry (italic).",
+          "used_in": "8/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 18.0,
+            "indent_left_pt": 18.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 11.0
+          }
+        },
+        "CoverPageHeaderCSAS": {
+          "style_name": "Cover Page: Header (CSAS)",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Cover page CSAS series header line.",
+          "used_in": "8/8 source documents",
+          "also_named": [
+            "PagecouvertureenttedelapageSCCS"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 0.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "CoverPageHeaderregions": {
+          "style_name": "Cover Page: Header (region(s))",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Cover page region(s) header line.",
+          "used_in": "8/8 source documents",
+          "also_named": [
+            "Pagecouvertureenttedelapagergion"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 0.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "PageHeaderRegionsNameofthereport": {
+          "style_name": "Page Header: Region(s) + Name of the report",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Running page header (region(s) and report name).",
+          "used_in": "8/8 source documents",
+          "also_named": [
+            "Enttedelapagergions"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 0.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Header": {
+          "style_name": "header",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Page header (Word built-in).",
+          "used_in": "1/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 0.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Footer": {
+          "style_name": "footer",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Page footer (Word built-in).",
+          "used_in": "2/8 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 0.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        }
+      },
+      "character_styles": {
+        "Hyperlink": {
+          "style_name": "Hyperlink",
+          "style_type": "character",
+          "based_on": null,
+          "purpose": "Hyperlink text.",
+          "used_in": "8/8 source documents",
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "0000FF",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0,
+            "underline": "single"
+          }
+        },
+        "PageNumber": {
+          "style_name": "page number",
+          "style_type": "character",
+          "based_on": null,
+          "purpose": "Page-number field text in the footer.",
+          "used_in": "8/8 source documents",
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 10.0
+          }
+        }
+      },
+      "list_marker_note": "List markers are defined in the document's numbering part, not the style: ListBullet = solid bullet, ListBullet2 = hollow 'o', ListNumber = '1.', ListNumber2 = 'a.'. Level-1 lists indent the text ~18 pt with an 18 pt hanging indent; level-2 lists ~32-36 pt."
+    },
+    "research_document": {
+      "display_name": "CSAS Research Document",
+      "applies_to": [
+        "Research Document (RES)"
+      ],
+      "source_documents": [
+        "RES2026-eng.docx",
+        "RES2026-fra.docx"
+      ],
+      "page_setup": {
+        "page_size": "Letter (8.5 x 11 in)",
+        "page_width_pt": 612,
+        "page_height_pt": 792,
+        "margins_pt": {
+          "top": 72,
+          "bottom": 72,
+          "left": 72,
+          "right": 72
+        },
+        "header_distance_pt": 36.0,
+        "footer_distance_pt": 30.9
+      },
+      "document_defaults": {
+        "font": "Arial",
+        "size_pt": 11,
+        "line_spacing": "single",
+        "note": "Unlike the advisory/response template, the Research Document's Normal style itself carries 6 pt space before/after."
+      },
+      "paragraph_styles": {
+        "Normal": {
+          "style_name": "Normal",
+          "style_type": "paragraph",
+          "based_on": null,
+          "purpose": "Base paragraph style. All other paragraph styles inherit from it.",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "BodyText": {
+          "style_name": "Body Text",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Default body paragraph for running text.",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "BodyTextBold": {
+          "style_name": "Body Text + Bold",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Body paragraph, bold.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "BodyTextgras"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "BodyTextBoldItallics": {
+          "style_name": "Body Text + Bold + Italics",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Body paragraph, bold italic.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "BodyTextgrasitalique"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 11.0
+          }
+        },
+        "BodyTextCentered": {
+          "style_name": "Body Text + Centered",
+          "style_type": "paragraph",
+          "based_on": "BodyText",
+          "purpose": "Body paragraph, centred.",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Blockquote": {
+          "style_name": "Blockquote",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Indented block quotation.",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 36.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Heading1": {
+          "style_name": "heading 1",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Top-level section heading.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre1"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 0,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 18.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          },
+          "source_variations": {
+            "run.color": [
+              "4F81BD",
+              "automatic"
+            ]
+          }
+        },
+        "Heading2": {
+          "style_name": "heading 2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Second-level section heading.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre2"
+          ],
+          "linked_character_style": "Heading2Char",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 1,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          },
+          "source_variations": {
+            "paragraph.contextual_spacing": [
+              false,
+              true
+            ]
+          }
+        },
+        "Heading3": {
+          "style_name": "heading 3",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Third-level section heading.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre3"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": true,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 2,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          }
+        },
+        "Heading4": {
+          "style_name": "heading 4",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Fourth-level section heading.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre4"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 18.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 3,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "run.color": [
+              "4F81BD",
+              "automatic"
+            ]
+          }
+        },
+        "Heading5": {
+          "style_name": "heading 5",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Fifth-level section heading.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre5"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 28.35,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 4,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              28.1,
+              28.35
+            ]
+          }
+        },
+        "Heading1withnumbers": {
+          "style_name": "Heading 1 with numbers",
+          "style_type": "paragraph",
+          "based_on": "Heading1",
+          "purpose": "Top-level heading, auto-numbered variant.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre1numrot"
+          ],
+          "auto_numbered": true,
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 0,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 18.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          },
+          "source_variations": {
+            "run.color": [
+              "4F81BD",
+              "automatic"
+            ]
+          }
+        },
+        "Heading2withnumbers": {
+          "style_name": "Heading 2 with numbers",
+          "style_type": "paragraph",
+          "based_on": "Heading2",
+          "purpose": "Second-level heading, auto-numbered variant.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre2numrot"
+          ],
+          "auto_numbered": true,
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 1,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          },
+          "source_variations": {
+            "paragraph.contextual_spacing": [
+              false,
+              true
+            ]
+          }
+        },
+        "Heading3withnumbers": {
+          "style_name": "Heading 3 with numbers",
+          "style_type": "paragraph",
+          "based_on": "Heading3",
+          "purpose": "Third-level heading, auto-numbered variant.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre3numrot"
+          ],
+          "auto_numbered": true,
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": true,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 2,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          }
+        },
+        "Heading4withnumbers": {
+          "style_name": "Heading 4 with numbers",
+          "style_type": "paragraph",
+          "based_on": "Heading4",
+          "purpose": "Fourth-level heading, auto-numbered variant.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Titre4numrot"
+          ],
+          "auto_numbered": true,
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 18.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 3,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "run.color": [
+              "4F81BD",
+              "automatic"
+            ]
+          }
+        },
+        "Heading5withnumbers": {
+          "style_name": "Heading 5 with numbers",
+          "style_type": "paragraph",
+          "based_on": "Heading5",
+          "purpose": "Fifth-level heading, auto-numbered variant.",
+          "used_in": "2/2 source documents",
+          "auto_numbered": true,
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 28.1,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 4,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "AbstractHeading": {
+          "style_name": "Abstract Heading",
+          "style_type": "paragraph",
+          "based_on": "Heading1",
+          "purpose": "Heading for the Abstract / Resume section.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Rsum"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 0,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 18.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          },
+          "source_variations": {
+            "run.color": [
+              "4F81BD",
+              "automatic"
+            ]
+          }
+        },
+        "AppendixH1": {
+          "style_name": "Appendix H1",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Appendix top-level heading.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "AnnexeT1"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 0,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 18.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          }
+        },
+        "AppendixH2": {
+          "style_name": "Appendix H2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Appendix second-level heading (auto-numbered).",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "AnnexeT2"
+          ],
+          "auto_numbered": true,
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 1,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          }
+        },
+        "AppendixH3": {
+          "style_name": "Appendix H3",
+          "style_type": "paragraph",
+          "based_on": "AppendixH2",
+          "purpose": "Appendix third-level heading (auto-numbered).",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "AnnexeT3"
+          ],
+          "auto_numbered": true,
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": 2,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          },
+          "source_variations": {
+            "paragraph.outline_level": [
+              1,
+              2
+            ]
+          }
+        },
+        "TABLEOFCONTENTS": {
+          "style_name": "TABLE OF CONTENTS",
+          "style_type": "paragraph",
+          "based_on": "ForewordPublishedby2ndpage",
+          "purpose": "Heading for the Table of Contents page.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "TABLEDESMATIRES"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 18.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          }
+        },
+        "TOC1": {
+          "style_name": "toc 1",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Table of Contents entry, level 1.",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 3.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "TOC2": {
+          "style_name": "toc 2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Table of Contents entry, level 2.",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 14.4,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 3.0,
+            "space_before_pt": 3.0
+          },
+          "run": {
+            "all_caps": true,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "TOC3": {
+          "style_name": "toc 3",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Table of Contents entry, level 3.",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 24.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 3.0,
+            "space_before_pt": 3.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              23.75,
+              24.0
+            ],
+            "paragraph.space_after_pt": [
+              0.0,
+              3.0
+            ],
+            "paragraph.space_before_pt": [
+              0.0,
+              3.0
+            ]
+          }
+        },
+        "Caption-Figure": {
+          "style_name": "Caption - Figure",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Figure caption (below the figure).",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "LgendeFigure"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 12.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 10.0
+          },
+          "source_variations": {
+            "paragraph.keep_lines_together": [
+              false,
+              true
+            ],
+            "paragraph.keep_with_next": [
+              false,
+              true
+            ]
+          }
+        },
+        "Caption-Table": {
+          "style_name": "Caption - Table",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Table caption (above the table).",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "LgendeTableau"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": true,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 12.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 10.0
+          },
+          "source_variations": {
+            "paragraph.keep_lines_together": [
+              false,
+              true
+            ]
+          }
+        },
+        "ListBullet": {
+          "style_name": "List Bullet",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "First-level bulleted list.",
+          "used_in": "2/2 source documents",
+          "list": {
+            "type": "bullet",
+            "marker": "• (Symbol font)",
+            "level": 1
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "ListBullet2": {
+          "style_name": "List Bullet 2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Second-level (nested) bulleted list.",
+          "used_in": "2/2 source documents",
+          "list": {
+            "type": "bullet",
+            "marker": "o (Courier New)",
+            "level": 2
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": true,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              0.0,
+              36.0
+            ]
+          }
+        },
+        "ListNumber": {
+          "style_name": "List Number",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "First-level numbered list.",
+          "used_in": "2/2 source documents",
+          "list": {
+            "type": "numbered",
+            "marker": "1.  (decimal)",
+            "level": 1
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          },
+          "source_variations": {
+            "paragraph.indent_left_pt": [
+              0.0,
+              18.0
+            ]
+          }
+        },
+        "ListNumber2": {
+          "style_name": "List Number 2",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Second-level (nested) numbered list.",
+          "used_in": "2/2 source documents",
+          "list": {
+            "type": "numbered",
+            "marker": "a.  (lower letter)",
+            "level": 2
+          },
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "citation": {
+          "style_name": "citation",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Bibliographic reference entry (hanging indent).",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 18.0,
+            "indent_left_pt": 18.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "citation-translated": {
+          "style_name": "citation - translated",
+          "style_type": "paragraph",
+          "based_on": "citation",
+          "purpose": "Translated bibliographic reference entry (italic).",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 18.0,
+            "indent_left_pt": 18.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": true,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": true,
+            "size_pt": 11.0
+          }
+        },
+        "CoverDocumenttitle": {
+          "style_name": "Cover: Document title",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Cover page document title.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Couverturetitredudocument"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 24.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 12.0
+          }
+        },
+        "CoverAuthor": {
+          "style_name": "Cover: Author",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Cover page author line.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Couvertureauteurs"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 24.0,
+            "space_before_pt": 24.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "CoverAddress": {
+          "style_name": "Cover: Address",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Cover page address block.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Couvertureadresse"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "CoverPageHeaderCSAS": {
+          "style_name": "Cover Page: Header (CSAS)",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Cover page CSAS header line.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "CouvertureenttedepageSCCS"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "CoverPageHeaderseries": {
+          "style_name": "Cover Page: Header (series)",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Cover page series header line.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Couvertureenttesrie"
+          ],
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "ForewordPublishedby2ndpage": {
+          "style_name": "Foreword & Published by (2nd page)",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Heading on the foreword / 'published by' page.",
+          "used_in": "2/2 source documents",
+          "also_named": [
+            "Avant-ProposPublipar2imepage"
+          ],
+          "paragraph": {
+            "alignment": "center",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 18.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": true,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Header": {
+          "style_name": "header",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Page header (Word built-in).",
+          "used_in": "2/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 0.0,
+            "space_before_pt": 0.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        },
+        "Footer": {
+          "style_name": "footer",
+          "style_type": "paragraph",
+          "based_on": "Normal",
+          "purpose": "Page footer (Word built-in).",
+          "used_in": "1/2 source documents",
+          "paragraph": {
+            "alignment": "left",
+            "contextual_spacing": false,
+            "first_line_indent_pt": 0.0,
+            "hanging_indent_pt": 0.0,
+            "indent_left_pt": 0.0,
+            "indent_right_pt": 0.0,
+            "keep_lines_together": false,
+            "keep_with_next": false,
+            "line_spacing": "single",
+            "outline_level": null,
+            "page_break_before": false,
+            "space_after_pt": 6.0,
+            "space_before_pt": 6.0
+          },
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "automatic",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0
+          }
+        }
+      },
+      "character_styles": {
+        "Hyperlink": {
+          "style_name": "Hyperlink",
+          "style_type": "character",
+          "based_on": null,
+          "purpose": "Hyperlink text.",
+          "used_in": "2/2 source documents",
+          "run": {
+            "all_caps": false,
+            "bold": false,
+            "color": "0000FF",
+            "font": "Arial",
+            "italic": false,
+            "size_pt": 11.0,
+            "underline": "single"
+          }
+        }
+      },
+      "list_marker_note": "Same list markers as the advisory/response template (solid bullet / 'o' / '1.' / 'a.')."
+    }
+  },
+  "non_standard_styles": {
+    "description": "Styles found applied in the source templates that appear to be imported clutter or one-off artifacts rather than intended CSAS styles. They are NOT part of the spec. A conversion tool should leave them alone or remap their content to a standard style.",
+    "items": [
+      {
+        "style_id": "Style1 / Style1Char",
+        "seen_in": "FSAR-PAS-eng, FSRR-PRS-eng",
+        "reason": "Generic auto-generated name; bold Arial 11 pt character run - equivalent to Body Text + Bold."
+      },
+      {
+        "style_id": "StyleHelvetica10pt",
+        "seen_in": "SRR-RS-eng",
+        "reason": "Helvetica 9 pt character style - a non-CSAS font, almost certainly pasted in from another document."
+      },
+      {
+        "style_id": "StyleStyleHelvetica10ptBody",
+        "seen_in": "SRR-RS-eng",
+        "reason": "Auto-generated name, resolves to Calibri 11 pt - paste artifact."
+      },
+      {
+        "style_id": "Context-Hyperlink / Context-HyperlinkChar / Contextehyperlien*",
+        "seen_in": "SAR-AS-eng, SAR-AS-fra",
+        "reason": "Italic blue underlined hyperlink variant used only by Science Advisory Reports; treat as document-specific, not a shared CSAS style."
+      },
+      {
+        "style_id": "normaltextrun",
+        "seen_in": "RES-eng, SAR-AS-eng, SRR-RS-eng (defined, web-paste artifact)",
+        "reason": "Microsoft web/HTML paste artifact, not a CSAS style."
+      }
+    ]
+  }
+}

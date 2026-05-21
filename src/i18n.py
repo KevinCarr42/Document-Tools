@@ -39,6 +39,10 @@ TRANSLATIONS = {
         "format.spinner": "Processing document…",
         "format.complete": "Formatting complete.",
         "format.failed": "Formatting failed: {error}",
+        "format.template_label": "Apply a CSAS formatting template",
+        "format.template_off": "Do not change source formatting",
+        "format.template_advisory": "CSAS Advisory / Response Report",
+        "format.template_research": "CSAS Research Document",
         "format.download_summary": "Download summary: {filename}",
         "format.report_title": "Format cleanup summary",
         "format.report_paragraphs": "Paragraphs scanned: {count}",
@@ -50,6 +54,11 @@ TRANSLATIONS = {
         "format.report_blank_runs": "Blank-run formatting cleared: {count}",
         "format.report_merged_runs": "Disjointed runs merged: {count}",
         "format.report_no_changes": "No formatting changes were needed.",
+        "format.report_spec_title": "CSAS formatting",
+        "format.report_spec_template": "Template applied: {name}",
+        "format.report_spec_created": "Styles created: {count}",
+        "format.report_spec_updated": "Styles updated: {count}",
+        "format.report_spec_sections": "Page layout sections adjusted: {count}",
         "format.localize_label": "Localize numbers and punctuation",
         "format.localize_off": "Leave as-is",
         "format.localize_en": "Format for English",
@@ -123,6 +132,10 @@ TRANSLATIONS = {
         "format.spinner": "Traitement du document…",
         "format.complete": "Mise en forme terminée.",
         "format.failed": "Échec de la mise en forme : {error}",
+        "format.template_label": "Appliquer un modèle de mise en forme du SCCS",
+        "format.template_off": "Ne pas modifier la mise en forme d'origine",
+        "format.template_advisory": "Avis ou Réponse des Sciences (SCCS)",
+        "format.template_research": "Document de recherche (SCCS)",
         "format.download_summary": "Télécharger le sommaire : {filename}",
         "format.report_title": "Sommaire du nettoyage de mise en forme",
         "format.report_paragraphs": "Paragraphes analysés : {count}",
@@ -134,6 +147,11 @@ TRANSLATIONS = {
         "format.report_blank_runs": "Mise en forme des séquences vides effacée : {count}",
         "format.report_merged_runs": "Séquences fragmentées fusionnées : {count}",
         "format.report_no_changes": "Aucune correction de mise en forme nécessaire.",
+        "format.report_spec_title": "Mise en forme du SCCS",
+        "format.report_spec_template": "Modèle appliqué : {name}",
+        "format.report_spec_created": "Styles créés : {count}",
+        "format.report_spec_updated": "Styles mis à jour : {count}",
+        "format.report_spec_sections": "Sections de mise en page ajustées : {count}",
         "format.localize_label": "Adapter les nombres et la ponctuation",
         "format.localize_off": "Ne pas modifier",
         "format.localize_en": "Adapter pour l'anglais",
@@ -200,6 +218,7 @@ WIDGET_TEXT_PAIRS = [
 ]
 
 
+# TODO: confirm this still does anything after updating max sizes? probably delete, clean up
 WIDGET_TEXT_OVERRIDES = {
     # Streamlit's default text → what we want it to say (per language).
     # Use this for strings where the EN default isn't what we want either —
