@@ -16,6 +16,7 @@
       "source_variations": "Present when source documents disagreed; lists the values seen. The value given is the majority/normalised one.",
       "run": "Character-level formatting (font, size, weight, colour).",
       "paragraph": "Paragraph-level formatting (spacing, indents, alignment).",
+      "borders": "Optional, inside 'paragraph'. Border edges to apply; a style without it has any borders cleared. Widths and spacing in points.",
       "also_named": "Other styleIds the same style appears under in the source documents (the JSON key is the canonical English styleId). Mostly French-language styleIds; a conversion tool should treat any of these as the same style.",
       "linked_character_style": "Word auto-creates this linked character style; it mirrors the paragraph style's run formatting."
     }
@@ -782,7 +783,15 @@
             "outline_level": null,
             "page_break_before": false,
             "space_after_pt": 0.0,
-            "space_before_pt": 0.0
+            "space_before_pt": 0.0,
+            "borders": {
+              "bottom": {
+                "style": "single",
+                "width_pt": 0.5,
+                "space_pt": 1.0,
+                "color": "automatic"
+              }
+            }
           },
           "run": {
             "all_caps": false,
@@ -2210,7 +2219,15 @@
             "outline_level": null,
             "page_break_before": false,
             "space_after_pt": 6.0,
-            "space_before_pt": 6.0
+            "space_before_pt": 6.0,
+            "borders": {
+              "bottom": {
+                "style": "single",
+                "width_pt": 0.5,
+                "space_pt": 1.0,
+                "color": "automatic"
+              }
+            }
           },
           "run": {
             "all_caps": false,

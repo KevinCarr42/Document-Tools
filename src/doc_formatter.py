@@ -49,10 +49,13 @@ def format_document_bytes(docx_bytes):
     summary = {
         "paragraphs_scanned": 0,
         "locations": {"body": 0, "tables": 0, "headers_footers": 0},
-        "fixes": {key: 0 for key, _ in _PARAGRAPH_PASSES},
+        "fixes": {key: 0 for key, _ in _FIX_LABELS},
     }
     
     for root in _iter_story_roots(doc):
+        # Fields can span paragraphs, so begin/end delimiters are balanced once
+        # across the whole story before the per-paragraph passes run.
+        summary["fixes"]["orphan_fields"] += _remove_orphan_field_runs(root)
         for paragraph in root.iter(_P):
             summary["paragraphs_scanned"] += 1
             summary["locations"][_paragraph_location(root, paragraph)] += 1
@@ -132,12 +135,14 @@ def _remove_proof_errors(paragraph):
     return count
 
 
-def _remove_orphan_field_runs(paragraph):
-    # A Word field is delimited by <w:fldChar> begin/end runs. A delimiter that
-    # is unbalanced AND carries no text is stale clutter, safe to drop.
+def _remove_orphan_field_runs(root):
+    # A Word field is delimited by <w:fldChar> begin/end runs and can span
+    # several paragraphs, so begin/end are balanced across the whole story. A
+    # delimiter that is unbalanced AND carries no text is stale clutter, safe
+    # to drop.
     open_begins = []
     orphans = []
-    for run in paragraph.findall(f".//{_R}"):
+    for run in root.iter(_R):
         fld_char = run.find(_FLD_CHAR)
         if fld_char is None:
             continue
@@ -207,11 +212,11 @@ def _merge_disjointed_runs(paragraph):
 
 # Ordered cleanup passes applied to every paragraph. Order matters: structural
 # unwrapping/removal first so promoted runs can merge, colour reset before the
-# merge so run signatures line up, merge last.
+# merge so run signatures line up, merge last. Orphan field runs are balanced
+# per story (fields can span paragraphs), so that pass runs separately.
 _PARAGRAPH_PASSES = (
     ("smart_tags", _unwrap_smart_tags),
     ("proof_errors", _remove_proof_errors),
-    ("orphan_fields", _remove_orphan_field_runs),
     ("manual_colours", _reset_manual_colours),
     ("blank_run_formatting", _strip_blank_run_formatting),
     ("merged_runs", _merge_disjointed_runs),

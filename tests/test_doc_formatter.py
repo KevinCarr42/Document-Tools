@@ -359,6 +359,18 @@ class TestOrphanFieldRuns:
         doc.save(buffer)
         result = _paragraphs(_format(buffer.getvalue()))[0]
         assert len(self._field_runs(result)) == 2
+    
+    def test_field_spanning_paragraphs_is_kept(self):
+        # A field whose begin and end sit in different paragraphs must survive:
+        # begin/end are balanced across the whole story, not one paragraph.
+        doc = Document()
+        doc.add_paragraph()._p.append(self._field_run("begin"))
+        doc.add_paragraph()._p.append(self._field_run("end"))
+        buffer = io.BytesIO()
+        doc.save(buffer)
+        paragraphs = _paragraphs(_format(buffer.getvalue()))
+        assert len(self._field_runs(paragraphs[0])) == 1
+        assert len(self._field_runs(paragraphs[1])) == 1
 
 
 class TestStoryCoverage:

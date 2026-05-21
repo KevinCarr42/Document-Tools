@@ -61,6 +61,10 @@ Each `<style>` has:
   `space_before_pt` / `space_after_pt`, the four indents (pt),
   `keep_with_next`, `keep_lines_together`, `contextual_spacing`,
   `outline_level`.
+- `borders` — optional, inside `paragraph`: the border edges to apply, keyed
+  by edge (`top` / `left` / `bottom` / `right`), each with `style`,
+  `width_pt`, `space_pt` and `color`. A style without it has any borders
+  cleared. Paragraph shading is always cleared (no CSAS style uses it).
 - `linked_character_style` / `auto_numbered` / `list` — present when relevant.
 - `source_variations` — present only when the source documents disagreed; the
   value in the spec is the majority/normalised one, and this lists what was
