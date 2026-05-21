@@ -10,9 +10,11 @@ logger = logging.getLogger("doc_tools.formatter")
 _P = qn("w:p")
 _R = qn("w:r")
 _RPR = qn("w:rPr")
+_PPR = qn("w:pPr")
 _T = qn("w:t")
 _TBL = qn("w:tbl")
 _COLOR = qn("w:color")
+_HIGHLIGHT = qn("w:highlight")
 _PROOF_ERR = qn("w:proofErr")
 _HYPERLINK = qn("w:hyperlink")
 _SMART_TAG = qn("w:smartTag")
@@ -38,6 +40,7 @@ _FIX_LABELS = (
     ("proof_errors", "Stray proofing marks removed"),
     ("orphan_fields", "Orphaned field runs removed"),
     ("manual_colours", "Manual colours reset"),
+    ("highlighting", "Highlighting removed"),
     ("blank_run_formatting", "Blank-run formatting cleared"),
     ("merged_runs", "Disjointed runs merged"),
 )
@@ -167,18 +170,49 @@ def _remove_orphan_field_runs(root):
     return count
 
 
-def _reset_manual_colours(paragraph):
-    count = 0
+def _run_property_blocks(paragraph):
+    # Every <w:rPr> in a paragraph: one per run, plus the paragraph-mark
+    # properties in <w:pPr>. The mark's rPr is what colours a list
+    # bullet/number, so it must be reset alongside the runs.
+    pPr = paragraph.find(_PPR)
+    if pPr is not None:
+        mark_rPr = pPr.find(_RPR)
+        if mark_rPr is not None:
+            yield mark_rPr
     for run in paragraph.iter(_R):
         rPr = run.find(_RPR)
-        if rPr is None:
-            continue
+        if rPr is not None:
+            yield rPr
+
+
+def _drop_empty_rpr(rPr):
+    if len(rPr) == 0:
+        parent = rPr.getparent()
+        if parent is not None:
+            parent.remove(rPr)
+
+
+def _reset_manual_colours(paragraph):
+    count = 0
+    for rPr in _run_property_blocks(paragraph):
         colour = rPr.find(_COLOR)
         if colour is not None:
             rPr.remove(colour)
             count += 1
-        if len(rPr) == 0:
-            run.remove(rPr)
+        _drop_empty_rpr(rPr)
+    return count
+
+
+def _remove_highlighting(paragraph):
+    # The output carries no highlighting: the highlighter-pen colour is dropped
+    # from every run and from the paragraph mark.
+    count = 0
+    for rPr in _run_property_blocks(paragraph):
+        highlight = rPr.find(_HIGHLIGHT)
+        if highlight is not None:
+            rPr.remove(highlight)
+            count += 1
+        _drop_empty_rpr(rPr)
     return count
 
 
@@ -218,6 +252,7 @@ _PARAGRAPH_PASSES = (
     ("smart_tags", _unwrap_smart_tags),
     ("proof_errors", _remove_proof_errors),
     ("manual_colours", _reset_manual_colours),
+    ("highlighting", _remove_highlighting),
     ("blank_run_formatting", _strip_blank_run_formatting),
     ("merged_runs", _merge_disjointed_runs),
 )

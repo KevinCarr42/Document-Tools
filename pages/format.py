@@ -14,6 +14,7 @@ _REPORT_LINES = [
     ("proof_errors", "format.report_proof_errors"),
     ("orphan_fields", "format.report_orphan_fields"),
     ("manual_colours", "format.report_manual_colours"),
+    ("highlighting", "format.report_highlighting"),
     ("blank_run_formatting", "format.report_blank_runs"),
     ("merged_runs", "format.report_merged_runs"),
 ]

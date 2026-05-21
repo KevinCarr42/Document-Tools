@@ -2,6 +2,7 @@ import io
 
 import pytest
 from docx import Document
+from docx.enum.text import WD_COLOR_INDEX
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import RGBColor
@@ -76,6 +77,18 @@ def _any_run_has_colour(paragraph):
         if rPr is not None and rPr.find(qn("w:color")) is not None:
             return True
     return False
+
+
+def _set_mark_property(paragraph, tag, val):
+    # Add a property to the paragraph-mark run properties (<w:pPr><w:rPr>).
+    pPr = paragraph._p.get_or_add_pPr()
+    rPr = pPr.find(qn("w:rPr"))
+    if rPr is None:
+        rPr = OxmlElement("w:rPr")
+        pPr.append(rPr)
+    element = OxmlElement(tag)
+    element.set(qn("w:val"), val)
+    rPr.append(element)
 
 
 class TestFunnySplits:
@@ -210,6 +223,39 @@ class TestManualColours:
         assert _run_count(paragraph) == 1
         assert paragraph.text == "red text"
         assert not _any_run_has_colour(paragraph)
+    
+    def test_paragraph_mark_colour_is_removed(self):
+        # A list bullet/number takes its colour from the paragraph-mark run
+        # properties in <w:pPr>, not from a <w:r>.
+        doc = Document()
+        paragraph = doc.add_paragraph("a line")
+        _set_mark_property(paragraph, "w:color", "FF0000")
+        buffer = io.BytesIO()
+        doc.save(buffer)
+        result = _paragraphs(_format(buffer.getvalue()))[0]
+        mark_rPr = result._p.find(qn("w:pPr")).find(qn("w:rPr"))
+        assert mark_rPr is None or mark_rPr.find(qn("w:color")) is None
+
+
+class TestHighlighting:
+    def test_run_highlight_is_removed(self):
+        doc = Document()
+        run = doc.add_paragraph().add_run("highlighted text")
+        run.font.highlight_color = WD_COLOR_INDEX.YELLOW
+        buffer = io.BytesIO()
+        doc.save(buffer)
+        paragraph = _paragraphs(_format(buffer.getvalue()))[0]
+        assert paragraph._p.findall(".//" + qn("w:highlight")) == []
+        assert paragraph.text == "highlighted text"
+    
+    def test_paragraph_mark_highlight_is_removed(self):
+        doc = Document()
+        paragraph = doc.add_paragraph("a line")
+        _set_mark_property(paragraph, "w:highlight", "cyan")
+        buffer = io.BytesIO()
+        doc.save(buffer)
+        result = _paragraphs(_format(buffer.getvalue()))[0]
+        assert result._p.findall(".//" + qn("w:highlight")) == []
 
 
 class TestAllowedFormatting:
