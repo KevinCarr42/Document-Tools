@@ -17,7 +17,8 @@ TRANSLATIONS = {
         "translate.shrink_info": "File exceeds the 10 MB Azure limit. Shrinking before translation…",
         "translate.shrink_spinner": "Shrinking embedded images…",
         "translate.shrink_done": "Shrunk: {before} → {after}",
-        "translate.too_big": "Even after shrinking the file is {size}, still over the 10 MB limit. This document likely has very little compressible image content. Translation is not supported yet (would require the async batch client).",
+        "translate.too_big": "Even after shrinking the file is {size}, still over the 10 MB limit. This document likely has very little compressible image content. Translation is not supported yet "
+                             "(would require the async batch client).",
         "translate.shrinker_failed": "Shrinker failed: {error}",
         "translate.azure_error": "Azure translation error: {error}",
         "translate.max_reduction": "Maximum image size reduction",
@@ -110,7 +111,8 @@ TRANSLATIONS = {
         "translate.shrink_info": "Le fichier dépasse la limite Azure de 10 Mo. Réduction avant traduction…",
         "translate.shrink_spinner": "Réduction des images intégrées…",
         "translate.shrink_done": "Réduit : {before} → {after}",
-        "translate.too_big": "Après réduction, le fichier fait toujours {size}, au-delà de la limite de 10 Mo. Ce document contient probablement peu d'images compressibles. La traduction n'est pas encore prise en charge (nécessiterait le client de traduction par lots asynchrone).",
+        "translate.too_big": "Après réduction, le fichier fait toujours {size}, au-delà de la limite de 10 Mo. Ce document contient probablement peu d'images compressibles. La traduction n'est pas "
+                             "encore prise en charge (nécessiterait le client de traduction par lots asynchrone).",
         "translate.shrinker_failed": "Échec de la réduction : {error}",
         "translate.azure_error": "Erreur de traduction Azure : {error}",
         "translate.max_reduction": "Réduction maximale de la taille des images",
@@ -162,7 +164,8 @@ TRANSLATIONS = {
         "format.report_localize_numbers": "Nombres reformatés : {count}",
         "format.report_localize_percent": "Espacement des symboles de pourcentage corrigé : {count}",
         "format.report_localize_punctuation": "Espacement de la ponctuation corrigé : {count}",
-        "proofread.caption": "Téléversez un fichier .docx traduit et, au besoin, le document source. Un agent LLM révise la traduction et boucle jusqu'à ce qu'aucune autre correction ne soit proposée.",
+        "proofread.caption": "Téléversez un fichier .docx traduit et, au besoin, le document source. Un agent LLM révise la traduction et boucle jusqu'à ce qu'aucune autre correction ne soit "
+                             "proposée.",
         "proofread.uploader_target": "Document traduit (obligatoire)",
         "proofread.uploader_source": "Document source (optionnel — améliore la fidélité de la traduction)",
         "proofread.max_iterations_label": "Nombre maximal de passes de révision",
@@ -218,18 +221,6 @@ WIDGET_TEXT_PAIRS = [
 ]
 
 
-# TODO: confirm this still does anything after updating max sizes? probably delete, clean up
-WIDGET_TEXT_OVERRIDES = {
-    # Streamlit's default text → what we want it to say (per language).
-    # Use this for strings where the EN default isn't what we want either —
-    # WIDGET_TEXT_PAIRS only handles EN↔FR swaps of Streamlit's own text.
-    "200MB per file • DOCX": {
-        "en": "Drag a DOCX file (max 200 MB)",
-        "fr": "Glissez un fichier DOCX (max 200 Mo)",
-    },
-}
-
-
 def widget_text_map():
     lang = get_lang()
     mapping = {}
@@ -238,10 +229,5 @@ def widget_text_map():
         mapping.update({en: fr for en, fr in WIDGET_TEXT_PAIRS})
     else:
         mapping.update({fr: en for en, fr in WIDGET_TEXT_PAIRS})
-    
-    for default_text, by_lang in WIDGET_TEXT_OVERRIDES.items():
-        mapping[default_text] = by_lang[lang]
-        other_lang = "en" if lang == "fr" else "fr"
-        mapping[by_lang[other_lang]] = by_lang[lang]
     
     return mapping
