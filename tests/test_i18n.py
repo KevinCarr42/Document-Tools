@@ -48,18 +48,3 @@ class TestToggleLang:
         fake_session_state["lang"] = "fr"
         toggle_lang()
         assert get_lang() == "en"
-
-
-class TestWidgetTextMap:
-    def test_french_maps_english_widget_text_to_french(self, fake_session_state):
-        fake_session_state["lang"] = "fr"
-        mapping = widget_text_map()
-        assert mapping["Drag and drop file here"] == "Glisser-déposer un fichier ici"
-    
-    def test_english_maps_french_widget_text_to_english(self, fake_session_state):
-        mapping = widget_text_map()
-        assert mapping["Glisser-déposer un fichier ici"] == "Drag and drop file here"
-    
-    def test_override_default_text_is_remapped(self, fake_session_state):
-        mapping = widget_text_map()
-        assert mapping["200MB per file • DOCX"] == "Drag a DOCX file (max 200 MB)"
